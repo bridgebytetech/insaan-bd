@@ -1,0 +1,68 @@
+[
+  {
+    "id": "don-001",
+    "name": "Ahmed Hassan",
+    "email": "ahmed.hassan@email.com",
+    "phone": "+880 1712-345678",
+    "status": "active",
+    "dateJoined": "2024-06-15",
+    "totalDonations": 45000,
+    "sponsoredOrphans": ["orp-001", "orp-002"],
+    "imageUrl": "/images/donors/ahmed.jpg"
+  },
+  {
+    "id": "don-002",
+    "name": "Fatima Khan",
+    "email": "fatima.khan@email.com",
+    "phone": "+880 1723-456789",
+    "status": "active",
+    "dateJoined": "2024-08-22",
+    "totalDonations": 32000,
+    "sponsoredOrphans": ["orp-003"],
+    "imageUrl": "/images/donors/fatima.jpg"
+  },
+  {
+    "id": "don-003",
+    "name": "Mohammad Rahim",
+    "email": "m.rahim@email.com",
+    "phone": "+880 1734-567890",
+    "status": "active",
+    "dateJoined": "2024-05-10",
+    "totalDonations": 68000,
+    "sponsoredOrphans": ["orp-001", "orp-005"],
+    "imageUrl": "/images/donors/rahim.jpg"
+  },
+  {
+    "id": "don-004",
+    "name": "Ayesha Siddiqui",
+    "email": "ayesha.s@email.com",
+    "phone": "+880 1745-678901",
+    "status": "active",
+    "dateJoined": "2024-09-01",
+    "totalDonations": 28000,
+    "sponsoredOrphans": ["orp-002"],
+    "imageUrl": "/images/donors/ayesha.jpg"
+  },
+  {
+    "id": "don-005",
+    "name": "Kamal Uddin",
+    "email": "kamal.u@email.com",
+    "phone": "+880 1756-789012",
+    "status": "inactive",
+    "dateJoined": "2024-03-20",
+    "totalDonations": 15000,
+    "sponsoredOrphans": [],
+    "imageUrl": "/images/donors/kamal.jpg"
+  },
+  {
+    "id": "don-006",
+    "name": "Nusrat Jahan",
+    "email": "nusrat.j@email.com",
+    "phone": "+880 1767-890123",
+    "status": "active",
+    "dateJoined": "2024-11-12",
+    "totalDonations": 41000,
+    "sponsoredOrphans": ["orp-005", "orp-003"],
+    "imageUrl": "/images/donors/nusrat.jpg"
+  }
+]

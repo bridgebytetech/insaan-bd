@@ -1,0 +1,27 @@
+{
+  "hero": {
+    "title": "Give Hope, Change Lives",
+    "subtitle": "Support orphaned children in Bangladesh and help them build a brighter future",
+    "ctaText": "Become a Donor Today"
+  },
+  "about": {
+    "mission": "To provide comprehensive care, education, and support to orphaned children, empowering them to become self-sufficient and productive members of society.",
+    "vision": "A world where every orphaned child has access to quality education, healthcare, and opportunities to thrive.",
+    "values": [
+      "Compassion and dignity for every child",
+      "Transparency in all our operations",
+      "Sustainable impact through education",
+      "Community engagement and empowerment"
+    ]
+  },
+  "contact": {
+    "email": "info@orphancare.org",
+    "phone": "+880 1700-000000",
+    "address": "123 Hope Street, Gulshan, Dhaka 1212, Bangladesh"
+  },
+  "social": {
+    "facebook": "https://facebook.com/orphancare",
+    "twitter": "https://twitter.com/orphancare",
+    "instagram": "https://instagram.com/orphancare"
+  }
+}

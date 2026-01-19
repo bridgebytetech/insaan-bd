@@ -1,0 +1,26 @@
+[
+  {
+    "id": "gal-001",
+    "title": "Educational Program Launch",
+    "description": "Our new educational support program for orphans",
+    "imageUrl": "/images/gallery/education-1.jpg",
+    "category": "Education",
+    "dateAdded": "2024-12-20"
+  },
+  {
+    "id": "gal-002",
+    "title": "Annual Sports Day",
+    "description": "Children enjoying sports activities",
+    "imageUrl": "/images/gallery/sports-1.jpg",
+    "category": "Events",
+    "dateAdded": "2024-11-15"
+  },
+  {
+    "id": "gal-003",
+    "title": "Health Camp",
+    "description": "Free health checkup for orphan children",
+    "imageUrl": "/images/gallery/health-1.jpg",
+    "category": "Healthcare",
+    "dateAdded": "2024-10-08"
+  }
+]

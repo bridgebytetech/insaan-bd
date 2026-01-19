@@ -1,0 +1,20 @@
+[
+  {
+    "id": "story-001",
+    "title": "From Orphan to Engineer",
+    "orphanName": "Samir Rahman",
+    "story": "Samir joined our program at age 9 after losing both parents. With the support of generous donors, he completed his education and recently graduated as a civil engineer. He now gives back by mentoring other orphans in our program.",
+    "imageUrl": "/images/stories/samir.jpg",
+    "datePublished": "2024-12-01",
+    "outcome": "Successfully graduated and employed"
+  },
+  {
+    "id": "story-002",
+    "title": "A Teacher's Journey",
+    "orphanName": "Mariam Sultana",
+    "story": "Mariam's dream was always to become a teacher. Through our education sponsorship program, she completed her Bachelor of Education degree and now teaches at a local school, inspiring the next generation.",
+    "imageUrl": "/images/stories/mariam.jpg",
+    "datePublished": "2024-10-15",
+    "outcome": "Working as a primary school teacher"
+  }
+]
