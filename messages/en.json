@@ -1,0 +1,13 @@
+{
+  "nav": {
+    "home": "Home",
+    "ourStars": "Our Stars",
+    "ourPatrons": "Our Patrons",
+    "activities": "Activities",
+    "gallery": "Gallery",
+    "successStories": "Success Stories",
+    "orphanReg": "Orphan Registration",
+    "login": "Login",
+    "join": "Join as Donor"
+  }
+}

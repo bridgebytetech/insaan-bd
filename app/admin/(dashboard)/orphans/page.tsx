@@ -1,212 +1,111 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import {
-  Plus,
-  Search,
-  MapPin,
-  Eye,
-  Trash2,
-  CheckCircle,
-  Clock,
-} from "lucide-react";
+import { useState, useEffect } from "react";
 import api from "@/app/lib/api/axios";
+import OrphanTable from "@/app/components/admin/OrphanTable";
+import OrphanStats from "@/app/components/admin/OrphanStats";
+import { Plus, Search, Loader2, SlidersHorizontal, Hash, LayoutGrid } from "lucide-react";
+import Link from "next/link";
 
-type Orphan = {
-  orphanId: number;
-  orphanName: string;
-  orphanAge: number;
-  orphanAddress: string;
-  orphanStatus: "PENDING" | "APPROVED" | "REJECTED";
-  orphanDpUrl?: string;
-};
-
-export default function OrphanManagementPage() {
-  const [orphans, setOrphans] = useState<Orphan[]>([]);
+export default function AdminOrphansPage() {
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<"all" | "pending" | "approved">("all");
   const [search, setSearch] = useState("");
 
-  const fetchOrphans = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
-      let url = "/admin/orphans";
-
-      if (filter === "pending") url = "/admin/orphans/pending";
-      if (filter === "approved") url = "/admin/orphans/approved";
-      if (search.trim()) url = `/admin/orphans/search?keyword=${search}`;
-
-      const res = await api.get(url);
-      if (res.data.success) {
-        setOrphans(res.data.data || []);
-      }
-    } catch (err) {
-      console.error("Fetch orphans error:", err);
-    } finally {
-      setLoading(false);
+      const res = await api.get("/admin/orphans");
+      setData(res.data.data || []);
+    } catch (error) { 
+      console.error("Error fetching orphans:", error); 
+    } finally { 
+      setLoading(false); 
     }
   };
 
-  useEffect(() => {
-    fetchOrphans();
-  }, [filter]);
+  useEffect(() => { 
+    fetchData(); 
+  }, []);
 
-  const handleApprove = async (id: number) => {
-    await api.put(`/admin/orphans/${id}/approve`);
-    fetchOrphans();
-  };
-
-  const handleReject = async (id: number) => {
-    await api.put(`/admin/orphans/${id}/reject`);
-    fetchOrphans();
-  };
-
-  const handleDelete = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this orphan?")) return;
-    await api.delete(`/admin/orphans/${id}`);
-    fetchOrphans();
-  };
+  // Filter logic: নাম অথবা ID দিয়ে সার্চ করার জন্য
+  const filteredData = data.filter((item: any) => 
+    item.orphanName?.toLowerCase().includes(search.toLowerCase()) || 
+    item.orphanId?.toString().includes(search)
+  );
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-black text-[#264653]">
-            Orphan Management
+    <div className="space-y-8 animate-in fade-in duration-700">
+      
+      {/* Header Section */}
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 p-2 md:p-0">
+        <div className="space-y-3">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#264653] text-white rounded-lg text-[10px] font-black uppercase tracking-[0.3em]">
+            <Hash size={12} className="text-[#2A9D8F]" />
+            Orphan Database v2.0
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black text-[#264653] tracking-tighter uppercase leading-tight">
+            শিশুদের <span className="text-[#2A9D8F]">তালিকা</span>
           </h1>
-          <p className="text-gray-500 font-medium">
-            Manage and review orphan applications
+          <p className="text-[#4A6651] font-bold text-sm border-l-4 border-[#2A9D8F] pl-4 max-w-xl">
+            সিস্টেমে নিবন্ধিত সকল শিশুদের প্রোফাইল এবং ইউনিক আইডি (ID) এখান থেকে পরিচালনা ও ফিল্টার করুন।
           </p>
         </div>
-        <Link
-          href="/admin/orphans/add"
-          className="flex items-center gap-2 bg-[#2A9D8F] text-white px-6 py-3 rounded-2xl font-bold shadow-lg hover:bg-[#264653] transition-all"
-        >
-          <Plus size={20} /> Add New Orphan
+
+        <Link href="/admin/orphans/add" className="group relative px-8 py-5 bg-[#E76F51] text-white rounded-xl font-black uppercase text-xs tracking-widest flex items-center gap-3 overflow-hidden transition-all shadow-xl hover:bg-[#264653] hover:shadow-2xl">
+          <Plus size={20} />
+          <span>নতুন শিশু যুক্ত করুন</span>
         </Link>
       </div>
 
-      {/* Filters & Search */}
-      <div className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded-[2rem] shadow-sm border border-gray-100">
-        <div className="relative flex-1">
-          <Search
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-            size={18}
-          />
-          <input
+      {/* Statistics Section */}
+      <OrphanStats 
+        total={data.length} 
+        pending={data.filter((o:any) => o.orphanStatus === 'PENDING').length} 
+        approved={data.filter((o:any) => o.orphanStatus === 'APPROVED').length} 
+      />
+
+      {/* Search & Filter Bar */}
+      <div className="flex flex-col md:flex-row gap-4 bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+        <div className="relative flex-1 group">
+          <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none text-gray-400 group-focus-within:text-[#2A9D8F] transition-colors">
+            <Search size={20} />
+          </div>
+          <input 
+            type="text"
+            placeholder="শিশুর নাম অথবা আইডি (ID) লিখে সার্চ করুন..."
+            className="w-full pl-14 pr-6 py-4 bg-gray-50 border-2 border-transparent rounded-xl outline-none focus:bg-white focus:border-[#2A9D8F]/30 transition-all font-bold text-[#264653]"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && fetchOrphans()}
-            type="text"
-            placeholder="Search by name or address..."
-            className="w-full pl-12 pr-4 py-3 bg-[#EDF4E8]/50 rounded-xl outline-none focus:ring-2 ring-[#2A9D8F]/20 text-[#264653]"
           />
         </div>
-        <div className="flex bg-[#EDF4E8]/50 p-1 rounded-xl">
-          {["all", "pending", "approved"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setFilter(tab as any)}
-              className={`px-6 py-2 rounded-lg text-sm font-bold capitalize transition-all ${
-                filter === tab
-                  ? "bg-white text-[#264653] shadow-sm"
-                  : "text-gray-500"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
+        <button className="flex items-center justify-center gap-3 px-8 py-4 bg-[#264653] text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#2A9D8F] transition-all">
+          <SlidersHorizontal size={18} />
+          <span>অ্যাডভান্সড ফিল্টার</span>
+        </button>
       </div>
 
-      {/* Grid List */}
-      {loading ? (
-        <p className="text-center py-10 font-bold text-gray-400">
-          Loading orphans...
-        </p>
-      ) : orphans.length === 0 ? (
-        <p className="text-center py-10 font-bold text-gray-400">
-          No orphans found.
-        </p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {orphans.map((orphan) => (
-            <motion.div
-              layout
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              key={orphan.orphanId}
-              className="bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all group"
-            >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={orphan.orphanDpUrl || "/placeholder.png"}
-                  alt={orphan.orphanName}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div
-                  className={`absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
-                    orphan.orphanStatus === "APPROVED"
-                      ? "bg-[#2A9D8F] text-white"
-                      : "bg-[#E76F51] text-white"
-                  }`}
-                >
-                  {orphan.orphanStatus}
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-black text-[#264653]">
-                  {orphan.orphanName}
-                </h3>
-                <div className="flex items-center gap-4 mt-2 text-gray-500 font-medium text-sm">
-                  <span className="flex items-center gap-1">
-                    <Clock size={14} /> Age: {orphan.orphanAge}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <MapPin size={14} /> {orphan.orphanAddress || "N/A"}
-                  </span>
-                </div>
-
-                <div className="mt-6 flex gap-2">
-                  <Link
-                    href={`/admin/orphans/${orphan.orphanId}`}
-                    className="flex-1 flex items-center justify-center gap-2 bg-[#EDF4E8] text-[#264653] py-3 rounded-xl font-bold hover:bg-[#2A9D8F] hover:text-white transition-all"
-                  >
-                    <Eye size={18} /> Details
-                  </Link>
-
-                  {orphan.orphanStatus === "PENDING" && (
-                    <>
-                      <button
-                        onClick={() => handleApprove(orphan.orphanId)}
-                        className="p-3 bg-green-50 text-green-600 rounded-xl hover:bg-green-600 hover:text-white transition-all"
-                      >
-                        <CheckCircle size={18} />
-                      </button>
-                      <button
-                        onClick={() => handleReject(orphan.orphanId)}
-                        className="p-3 bg-yellow-50 text-yellow-600 rounded-xl hover:bg-yellow-500 hover:text-white transition-all"
-                      >
-                        <Clock size={18} />
-                      </button>
-                    </>
-                  )}
-
-                  <button
-                    onClick={() => handleDelete(orphan.orphanId)}
-                    className="p-3 bg-red-50 text-[#E76F51] rounded-xl hover:bg-[#E76F51] hover:text-white transition-all"
-                  >
-                    <Trash2 size={18} />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+      {/* Table Section */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="p-6 border-b border-gray-50 bg-gray-50/50 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <LayoutGrid size={16} className="text-[#2A9D8F]" />
+            <h2 className="text-[10px] font-black uppercase tracking-widest text-gray-400">শিশুদের প্রোফাইল ডাটাবেস</h2>
+          </div>
+          <span className="text-[10px] font-bold text-[#2A9D8F] bg-[#2A9D8F]/10 px-3 py-1 rounded-full">
+            Total Results: {filteredData.length}
+          </span>
         </div>
-      )}
+
+        {loading ? (
+          <div className="h-96 flex flex-col items-center justify-center">
+            <Loader2 className="animate-spin text-[#2A9D8F] mb-4" size={50} />
+            <p className="text-[#264653] font-black tracking-[0.2em] uppercase text-[10px]">তথ্য প্রসেস হচ্ছে...</p>
+          </div>
+        ) : (
+          /* ডাটা হিসেবে filteredData পাস করা হয়েছে */
+          <OrphanTable data={filteredData} refresh={fetchData} />
+        )}
+      </div>
     </div>
   );
 }

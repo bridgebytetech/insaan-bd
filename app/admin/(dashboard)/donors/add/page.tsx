@@ -1,178 +1,69 @@
-'use client';
-import { useState } from 'react';
-import { ArrowLeft, Building2, User, Loader2 } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import api from '@/app/lib/api/axios'; // আপনার axios ইন্টারসেপ্টর ফাইল
-import toast from 'react-hot-toast'; // নোটিফিকেশনের জন্য (অপশনাল)
+"use client";
+import { useEffect, useState, use } from "react";
+import { donorService } from "@/app/lib/services/donorService";
+import { ArrowLeft, Mail, Phone, MapPin, Building2, Calendar } from "lucide-react";
+import Link from "next/link";
+import toast from "react-hot-toast";
 
-export default function AddDonorPage() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [donorType, setDonorType] = useState<'INDIVIDUAL' | 'ORGANIZATION'>('INDIVIDUAL');
+export default function DonorDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params);
+  const [donor, setDonor] = useState<any>(null);
 
-  // ১. ফর্ম স্টেট (আপনার API Schema অনুযায়ী)
-  const [formData, setFormData] = useState({
-    donorName: '',
-    donorEmail: '',
-    donorPassword: '',
-    donorContact: '',
-    donorAddress: '',
-    organizationName: '',
-    organizationRegistrationNo: '',
-    donorMessage: 'Added by Admin', // ডিফল্ট মেসেজ
-    typeOfSupport: 'General Support', // ডিফল্ট সাপোর্ট
-    donorDpUrl: 'https://cdn-icons-png.flaticon.com/512/149/149071.png' // ডিফল্ট ছবি
-  });
+  useEffect(() => {
+    donorService.getDonorById(Number(resolvedParams.id))
+      .then(res => setDonor(res.data))
+      .catch(() => toast.error("বিস্তারিত তথ্য পাওয়া যায়নি"));
+  }, [resolvedParams.id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  // ২. সাবমিট ফাংশন
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      // API Call: POST /api/admin/donors
-      const response = await api.post('/admin/donors', {
-        ...formData,
-        donorType: donorType,
-        // অর্গানাইজেশন না হলে এগুলো খালি পাঠানো ভালো
-        organizationName: donorType === 'ORGANIZATION' ? formData.organizationName : '',
-        organizationRegistrationNo: donorType === 'ORGANIZATION' ? formData.organizationRegistrationNo : '',
-      });
-
-      if (response.data.success) {
-        toast.success('Donor registered successfully!');
-        router.push('/admin/donors'); // সফল হলে লিস্ট পেজে নিয়ে যাবে
-      }
-    } catch (error: any) {
-      console.error(error);
-      toast.error(error.response?.data?.message || 'Failed to register donor');
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (!donor) return <div className="p-20 text-center font-black animate-pulse">Loading Details...</div>;
 
   return (
-    <div className="max-w-4xl mx-auto pb-20">
-      <Link href="/admin/donors" className="flex items-center gap-2 text-gray-500 font-bold mb-6 hover:text-[#264653] transition-colors">
-        <ArrowLeft size={18} /> Back to Directory
+    <div className="p-8 max-w-4xl mx-auto space-y-8">
+      <Link href="/admin/donors" className="inline-flex items-center gap-2 text-gray-400 hover:text-[#264653] font-black uppercase text-xs tracking-widest transition-all">
+        <ArrowLeft size={16} /> Back to Directory
       </Link>
 
-      <div className="bg-white rounded-[3rem] p-6 md:p-10 border border-gray-100 shadow-sm">
-        <h1 className="text-3xl font-black text-[#264653] mb-8">Manual Registration</h1>
-        
-        <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Donor Type Toggle */}
-          <div className="flex bg-[#EDF4E8] p-2 rounded-2xl w-full max-w-sm">
-            <button 
-              type="button"
-              onClick={() => setDonorType('INDIVIDUAL')}
-              className={`flex-1 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all ${donorType === 'INDIVIDUAL' ? 'bg-[#264653] text-white shadow-lg' : 'text-[#264653]/50'}`}
-            >
-              <User size={14} className="inline mr-2" /> Individual
-            </button>
-            <button 
-              type="button"
-              onClick={() => setDonorType('ORGANIZATION')}
-              className={`flex-1 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all ${donorType === 'ORGANIZATION' ? 'bg-[#264653] text-white shadow-lg' : 'text-[#264653]/50'}`}
-            >
-              <Building2 size={14} className="inline mr-2" /> Organization
-            </button>
+      <div className="bg-white rounded-[3rem] p-12 shadow-sm border border-gray-50 flex flex-col md:flex-row gap-12">
+        <div className="flex flex-col items-center gap-6">
+          <div className="w-40 h-40 rounded-[3rem] bg-[#264653] text-white flex items-center justify-center text-6xl font-black shadow-2xl">
+            {donor.donorName.charAt(0)}
+          </div>
+          <div className={`px-6 py-2 rounded-2xl font-black text-[10px] uppercase tracking-tighter ${donor.isActive ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}`}>
+            {donor.isActive ? "Active Account" : "Suspended"}
+          </div>
+        </div>
+
+        <div className="flex-1 space-y-8">
+          <div>
+            <h1 className="text-4xl font-black text-[#264653]">{donor.donorName}</h1>
+            <p className="text-[#2A9D8F] font-black uppercase text-xs tracking-[0.3em] mt-1">{donor.donorType}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <InputField 
-              label="Donor Full Name" 
-              name="donorName"
-              required
-              value={formData.donorName}
-              onChange={handleChange}
-              placeholder="e.g. Mohammad Rahim" 
-            />
-            <InputField 
-              label="Email Address" 
-              name="donorEmail"
-              type="email" 
-              required
-              value={formData.donorEmail}
-              onChange={handleChange}
-              placeholder="rahim@example.com" 
-            />
-            <InputField 
-              label="Password" 
-              name="donorPassword"
-              type="password" 
-              required
-              value={formData.donorPassword}
-              onChange={handleChange}
-              placeholder="••••••••" 
-            />
-            <InputField 
-              label="Phone Number (Connect)" 
-              name="donorContact"
-              required
-              value={formData.donorContact}
-              onChange={handleChange}
-              placeholder="017XXXXXXXX" 
-            />
-            
-            {donorType === 'ORGANIZATION' && (
+            <InfoItem icon={<Mail/>} label="Email" value={donor.donorEmail}/>
+            <InfoItem icon={<Phone/>} label="Phone" value={donor.donorContact}/>
+            <InfoItem icon={<MapPin/>} label="Address" value={donor.donorAddress} full/>
+            {donor.donorType === 'ORGANIZATION' && (
               <>
-                <InputField 
-                  label="Organization Name" 
-                  name="organizationName"
-                  value={formData.organizationName}
-                  onChange={handleChange}
-                  placeholder="e.g. Tech Solutions Ltd" 
-                />
-                <InputField 
-                  label="Registration No" 
-                  name="organizationRegistrationNo"
-                  value={formData.organizationRegistrationNo}
-                  onChange={handleChange}
-                  placeholder="REG-123456" 
-                />
+                <InfoItem icon={<Building2/>} label="Organization" value={donor.organizationName}/>
+                <InfoItem icon={<Calendar/>} label="Reg No" value={donor.organizationRegistrationNo}/>
               </>
             )}
-            
-            <div className="md:col-span-2 space-y-2">
-              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Full Address</label>
-              <textarea 
-                name="donorAddress"
-                required
-                value={formData.donorAddress}
-                onChange={handleChange}
-                className="w-full p-5 bg-[#EDF4E8]/50 rounded-[2rem] outline-none h-32 focus:ring-2 ring-[#2A9D8F] font-bold text-[#264653]" 
-                placeholder="Street, City, Postal Code..."
-              ></textarea>
-            </div>
           </div>
-
-          <button 
-            type="submit"
-            disabled={loading}
-            className="w-full py-5 bg-[#2A9D8F] text-white rounded-[2.5rem] font-black text-xl shadow-lg hover:shadow-[#2A9D8F]/40 transition-all flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
-          >
-            {loading ? <Loader2 className="animate-spin" /> : 'Save Donor Profile'}
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   );
 }
 
-function InputField({ label, ...props }: any) {
+function InfoItem({ icon, label, value, full }: any) {
   return (
-    <div className="space-y-2">
-      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">{label}</label>
-      <input 
-        className="w-full p-5 bg-[#EDF4E8]/50 rounded-[2rem] outline-none focus:ring-2 ring-[#2A9D8F] font-bold text-[#264653] transition-all" 
-        {...props} 
-      />
+    <div className={`flex gap-4 p-4 bg-gray-50/50 rounded-2xl ${full ? 'md:col-span-2' : ''}`}>
+      <div className="text-[#2A9D8F]">{icon}</div>
+      <div>
+        <p className="text-[10px] font-black text-gray-300 uppercase tracking-widest">{label}</p>
+        <p className="font-bold text-[#264653]">{value || "N/A"}</p>
+      </div>
     </div>
   );
 }

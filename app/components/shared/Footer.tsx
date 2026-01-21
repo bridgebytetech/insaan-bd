@@ -24,7 +24,7 @@ export default function Footer() {
                 <Heart className="w-6 h-6 text-white" fill="white" />
               </div>
               <h3 className="text-3xl font-black text-white tracking-tighter">
-                Insaan <span className="text-[#2A9D8F]">BD</span>
+                ইনসান <span className="text-[#2A9D8F]">বিডি</span>
               </h3>
             </div>
             <p className="text-white/60 text-lg leading-relaxed max-w-md">
@@ -42,7 +42,7 @@ export default function Footer() {
           {/* Links Grid (7 Cols) */}
           <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-12">
             <div className="space-y-6">
-              <h4 className="text-white font-bold text-sm uppercase tracking-widest border-b border-[#2A9D8F] pb-2 inline-block">Explore</h4>
+              <h4 className="text-white font-bold text-sm uppercase tracking-widest border-b border-[#2A9D8F] pb-2 inline-block">এক্সপ্লোর</h4>
               <ul className="space-y-4">
                 {["হোম", "সম্পর্কে", "কার্যক্রম", "গ্যালারি"].map((link) => (
                   <li key={link}>
@@ -53,26 +53,31 @@ export default function Footer() {
             </div>
 
             <div className="space-y-6">
-              <h4 className="text-white font-bold text-sm uppercase tracking-widest border-b border-[#E76F51] pb-2 inline-block">Involvement</h4>
+              <h4 className="text-white font-bold text-sm uppercase tracking-widest border-b border-[#E76F51] pb-2 inline-block">অংশগ্রহণ</h4>
               <ul className="space-y-4">
-                {["Become a Donor", "Volunteer", "Fundraise", "Partnership"].map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-white/40 hover:text-white transition-colors text-sm font-medium">{link}</a>
+                {[
+                  { en: "Become a Donor", bn: "দাতা হিসেবে যুক্ত হোন" },
+                  { en: "Volunteer", bn: "স্বেচ্ছাসেবী" },
+                  { en: "Fundraise", bn: "তহবিল সংগ্রহ" },
+                  { en: "Partnership", bn: "অংশীদারিত্ব" }
+                ].map((link) => (
+                  <li key={link.en}>
+                    <a href="#" className="text-white/40 hover:text-white transition-colors text-sm font-medium">{link.bn}</a>
                   </li>
                 ))}
               </ul>
             </div>
 
             <div className="col-span-2 sm:col-span-1 space-y-6">
-              <h4 className="text-white font-bold text-sm uppercase tracking-widest border-b border-[#2A9D8F] pb-2 inline-block">Contact</h4>
+              <h4 className="text-white font-bold text-sm uppercase tracking-widest border-b border-[#2A9D8F] pb-2 inline-block">যোগাযোগ</h4>
               <div className="space-y-4">
                 <div className="flex gap-3">
                   <MapPin size={18} className="text-[#2A9D8F] shrink-0" />
-                  <p className="text-white/40 text-sm leading-snug">Uttara, Dhaka, Bangladesh</p>
+                  <p className="text-white/40 text-sm leading-snug">উত্তরা, ঢাকা, বাংলাদেশ</p>
                 </div>
                 <a href="tel:+" className="flex items-center gap-3 text-white/40 hover:text-white transition-colors text-sm font-medium">
                   <Phone size={18} className="text-[#2A9D8F]" />
-                  +880 1700-000000
+                  +৮৮০ ১৭০০-০০০০০০
                 </a>
               </div>
             </div>
@@ -82,11 +87,11 @@ export default function Footer() {
         {/* Legal Bar */}
         <div className="pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-white/20 text-xs font-bold uppercase tracking-[0.2em]">
-            © 2026 Insaan BD. Designed with Heart.
+            © ২০২৬ ইনসান বিডি। ভালোবাসার সাথে নির্মিত।
           </p>
           <div className="flex gap-8">
-            <a href="#" className="text-white/20 hover:text-[#2A9D8F] text-[10px] font-bold uppercase tracking-widest">Privacy Policy</a>
-            <a href="#" className="text-white/20 hover:text-[#2A9D8F] text-[10px] font-bold uppercase tracking-widest">Terms of Service</a>
+            <a href="#" className="text-white/20 hover:text-[#2A9D8F] text-[10px] font-bold uppercase tracking-widest">গোপনীয়তা নীতি</a>
+            <a href="#" className="text-white/20 hover:text-[#2A9D8F] text-[10px] font-bold uppercase tracking-widest">পরিষেবার শর্তাবলী</a>
           </div>
         </div>
       </div>

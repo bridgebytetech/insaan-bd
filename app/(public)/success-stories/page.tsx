@@ -5,13 +5,13 @@ import { SuccessStory } from "@/app/lib/types/story";
 async function getStories() {
   try {
     const [allRes, featuredRes] = await Promise.all([
-      api.get<{ data: SuccessStory[] }>('/public/stories'),
-      api.get<{ data: SuccessStory[] }>('/public/stories/featured')
+      api.get<{ data: SuccessStory[] }>("/public/stories"),
+      api.get<{ data: SuccessStory[] }>("/public/stories/featured"),
     ]);
 
     return {
-      all: allRes.data.data.filter(s => s.isActive) || [],
-      featured: featuredRes.data.data.filter(s => s.isActive) || []
+      all: allRes.data.data.filter((s) => s.isActive) || [],
+      featured: featuredRes.data.data.filter((s) => s.isActive) || [],
     };
   } catch (error) {
     console.error("Story fetch error:", error);

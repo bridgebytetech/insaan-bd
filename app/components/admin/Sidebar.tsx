@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
   LayoutDashboard, Users, HandHeart, CircleDollarSign, 
-  Image as ImageIcon, Star, FileText, Settings, X ,Activity
+  Image as ImageIcon, Star, Settings, X, Activity, Link2 
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -18,16 +18,16 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
     { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/orphans', label: 'Orphans', icon: Users },
     { href: '/admin/donors', label: 'Donors', icon: HandHeart },
+    { href: '/admin/connections', label: 'Connections', icon: Link2 }, // নতুন যুক্ত করা হলো
     { href: '/admin/donations', label: 'Donations', icon: CircleDollarSign },
+    { href: '/admin/activities', label: 'Activities', icon: Activity },
     { href: '/admin/gallery', label: 'Gallery', icon: ImageIcon },
     { href: '/admin/success-stories', label: 'Stories', icon: Star },
-    { href: '/admin/settings', label: 'Settings', icon: Settings },
-    { href: '/admin/activities', label: 'Activities', icon: Activity },
   ];
 
   return (
     <>
-      {/* Mobile Overlay: সাইডবার খোলা থাকলে ব্যাকগ্রাউন্ড আবছা করে দেবে */}
+      {/* Mobile Overlay */}
       <div 
         className={`fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-300 ${
           isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
@@ -55,7 +55,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         </div>
 
         {/* Navigation */}
-        <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100vh-100px)]">
+        <nav className="p-4 space-y-1 overflow-y-auto h-[calc(100vh-100px)] custom-scrollbar">
           {menuItems.map((item) => {
             const isActive = pathname === item.href;
             const Icon = item.icon;
