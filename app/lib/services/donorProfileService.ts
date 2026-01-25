@@ -20,23 +20,23 @@ const donorProfileService = {
    * ২. প্রোফাইল তথ্য আপডেট
    */
  // আপনার দেওয়া এন্ডপয়েন্ট অনুযায়ী আপডেট
-  updateProfile: async (updateData: { 
-    donorName: string; 
-    donorContact: string; 
-    donorAddress: string; 
-    donorMessage?: string;
-    preferredSupportType?: string;
-    donorDpUrl?: string;
-    organizationName?: string;
-    organizationRegistrationNo?: string;
-  }) => {
-    try {
-      const response = await api.put("/donor/profile", updateData);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  },
+updateProfile: async (updateData: Partial<{ 
+  donorName: string; 
+  donorContact: string; 
+  donorAddress: string; 
+  donorMessage?: string;
+  preferredSupportType?: string;
+  donorDpUrl?: string;
+  organizationName?: string;
+  organizationRegistrationNo?: string;
+}>) => {
+  try {
+    const response = await api.put("/donor/profile", updateData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+},
 
   // পাসওয়ার্ড পরিবর্তনের এন্ডপয়েন্ট (যদি থাকে)// --- Forgot Password Flow ---
   forgotPassword: async (email: string) => {
