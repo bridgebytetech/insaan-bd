@@ -4,21 +4,26 @@ import { AdminGalleryItem, GalleryRequest } from "@/app/lib/types/admin-gallery"
 const ADMIN_GALLERY_URL = "/admin/gallery";
 
 export const adminGalleryService = {
-  // ১. সব ছবি দেখা
   getAll: () => api.get<{ data: AdminGalleryItem[] }>(ADMIN_GALLERY_URL),
-  
-  // ২. নির্দিষ্ট একটি ছবি দেখা
   getById: (id: number) => api.get<{ data: AdminGalleryItem }>(`${ADMIN_GALLERY_URL}/${id}`),
-  
-  // ৩. নতুন ছবি যোগ করা
   create: (data: GalleryRequest) => api.post(ADMIN_GALLERY_URL, data),
-  
-  // ৪. ছবি আপডেট করা
   update: (id: number, data: GalleryRequest) => api.put(`${ADMIN_GALLERY_URL}/${id}`, data),
-  
-  // ৫. ডিলিট করা
   delete: (id: number) => api.delete(`${ADMIN_GALLERY_URL}/${id}`),
-  
-  // ৬. একটিভ/ইনএকটিভ টগল করা
   toggleStatus: (id: number) => api.put(`${ADMIN_GALLERY_URL}/${id}/toggle-status`),
+
+  // ফাইলের পূর্ণাঙ্গ URL পাওয়ার জন্য এই মেথডটি ব্যবহার করবেন
+  getFileUrl: (filename: string) => {
+    if (!filename) return "";
+    if (filename.startsWith('http')) return filename; // যদি অলরেডি ফুল লিঙ্ক থাকে
+    return `${ADMIN_GALLERY_URL}/api/public/files/${filename}`;
+  },
+  // নতুন ফাইল আপলোড মেথড
+  uploadFile: async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    // নোট: আপনার এন্ডপয়েন্ট অনুযায়ী বেস URL এবং পাথ সেট করা হয়েছে
+    return api.post("/public/upload", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
 };

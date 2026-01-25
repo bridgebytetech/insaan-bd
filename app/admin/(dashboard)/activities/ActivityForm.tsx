@@ -1,9 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ActivityRequest, AdminActivityItem } from "@/app/lib/types/activity";
 import { adminActivityService } from "@/app/lib/services/adminActivityService";
+import axios from "axios";
 import toast from "react-hot-toast";
-import { X, Loader2, Image as ImageIcon, Layout, Globe, AlignLeft, Calendar, MapPin, Save } from "lucide-react";
+import { X, Loader2, Image as ImageIcon, Layout, Globe, AlignLeft, Calendar, MapPin, Save, UploadCloud } from "lucide-react";
 
 interface Props {
   isOpen: boolean;
@@ -14,6 +15,9 @@ interface Props {
 
 export default function ActivityForm({ isOpen, onClose, onSuccess, editItem }: Props) {
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [formData, setFormData] = useState<ActivityRequest>({
     activityTitle: "",
     activityDescription: "",
@@ -21,6 +25,33 @@ export default function ActivityForm({ isOpen, onClose, onSuccess, editItem }: P
     activityDate: new Date().toISOString().split("T")[0],
     activityLocation: "",
   });
+
+  // Handle Image Upload
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const data = new FormData();
+    data.append("file", file);
+
+    try {
+      setUploading(true);
+      const res = await axios.post("https://api.insaanbd.org/api/public/upload", data);
+      if (res.data.success) {
+        setFormData(prev => ({ ...prev, activityPhotoUrl: res.data.data.url }));
+        toast.success("ছবি আপলোড হয়েছে");
+      }
+    } catch (err) {
+      toast.error("আপলোড ব্যর্থ হয়েছে");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const getImageUrl = (url: string) => {
+    if (!url) return "";
+    return url.startsWith("http") ? url : `https://api.insaanbd.org/api/public/files/${url}`;
+  };
 
   useEffect(() => {
     if (editItem) {
@@ -44,6 +75,8 @@ export default function ActivityForm({ isOpen, onClose, onSuccess, editItem }: P
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.activityPhotoUrl) return toast.error("একটি ছবি আপলোড করুন");
+    
     setLoading(true);
     try {
       if (editItem) {
@@ -75,12 +108,10 @@ export default function ActivityForm({ isOpen, onClose, onSuccess, editItem }: P
 
   return (
     <div className="fixed inset-0 z-[100] flex justify-end bg-[#264653]/40 backdrop-blur-sm">
-      {/* Backdrop Close Zone */}
       <div className="absolute inset-0" onClick={onClose} />
 
       <div className="relative w-full max-w-xl bg-white h-full shadow-[-20px_0_50px_rgba(0,0,0,0.1)] border-l-4 border-[#2A9D8F] flex flex-col animate-in slide-in-from-right duration-500">
         
-        {/* Sharp Header */}
         <div className="bg-[#264653] p-8 flex justify-between items-center text-white">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -91,37 +122,39 @@ export default function ActivityForm({ isOpen, onClose, onSuccess, editItem }: P
               {editItem ? "অ্যাক্টিভিটি আপডেট" : "নতুন অ্যাক্টিভিটি"}
             </h2>
           </div>
-          <button
-            onClick={onClose}
-            className="p-3 border border-white/10 hover:bg-white hover:text-[#264653] transition-all"
-          >
+          <button onClick={onClose} className="p-3 border border-white/10 hover:bg-white hover:text-[#264653] transition-all">
             <X size={24} />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-8 space-y-8">
           
-          {/* Edge-to-Edge Sharp Preview */}
-          <div className="relative aspect-video bg-gray-100 border border-gray-200 overflow-hidden group">
+          {/* Sharp Preview / Upload Box */}
+          <div 
+            onClick={() => fileInputRef.current?.click()}
+            className="relative aspect-video bg-gray-100 border border-gray-200 overflow-hidden group cursor-pointer"
+          >
             {formData.activityPhotoUrl ? (
               <img
-                src={formData.activityPhotoUrl}
+                src={getImageUrl(formData.activityPhotoUrl)}
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                 alt="Preview"
               />
             ) : (
               <div className="h-full flex flex-col items-center justify-center text-[#264653]/20">
-                <ImageIcon size={48} strokeWidth={1} />
-                <p className="text-[10px] font-black uppercase tracking-widest mt-2">No Preview Available</p>
+                {uploading ? <Loader2 className="animate-spin" size={32} /> : <UploadCloud size={48} strokeWidth={1} />}
+                <p className="text-[10px] font-black uppercase tracking-widest mt-2">
+                  {uploading ? "Uploading..." : "Click to Upload Image"}
+                </p>
               </div>
             )}
+            <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleImageChange} />
             <div className="absolute bottom-0 left-0 bg-[#2A9D8F] text-white px-4 py-1 text-[9px] font-black tracking-widest uppercase">
-              Image Aspect Ratio 16:9
+              Aspect Ratio 16:9
             </div>
           </div>
 
           <div className="space-y-6">
-            {/* Title Field */}
             <div>
               <InputHeader icon={Globe} label="অ্যাক্টিভিটি টাইটেল" />
               <input
@@ -133,19 +166,6 @@ export default function ActivityForm({ isOpen, onClose, onSuccess, editItem }: P
               />
             </div>
 
-            {/* Photo URL Field */}
-            <div>
-              <InputHeader icon={ImageIcon} label="ফটো ইউআরএল" />
-              <input
-                className="w-full p-4 bg-gray-50 border-l-4 border-gray-200 focus:border-[#2A9D8F] outline-none font-bold text-xs text-[#264653] transition-all"
-                placeholder="https://image-link.com/photo.jpg"
-                value={formData.activityPhotoUrl}
-                onChange={(e) => setFormData({ ...formData, activityPhotoUrl: e.target.value })}
-                required
-              />
-            </div>
-
-            {/* Meta Grid */}
             <div className="grid grid-cols-2 gap-0 border border-gray-100">
               <div className="p-4 border-r border-gray-100">
                 <InputHeader icon={Calendar} label="তারিখ" />
@@ -169,7 +189,6 @@ export default function ActivityForm({ isOpen, onClose, onSuccess, editItem }: P
               </div>
             </div>
 
-            {/* Description */}
             <div>
               <InputHeader icon={AlignLeft} label="বিস্তারিত বিবরণ" />
               <textarea
@@ -184,7 +203,6 @@ export default function ActivityForm({ isOpen, onClose, onSuccess, editItem }: P
           </div>
         </form>
 
-        {/* Action Toolbar */}
         <div className="p-8 border-t border-gray-100 flex gap-0 bg-white shadow-[0_-10px_40px_rgba(0,0,0,0.02)]">
           <button
             type="button"
@@ -195,12 +213,10 @@ export default function ActivityForm({ isOpen, onClose, onSuccess, editItem }: P
           </button>
           <button
             onClick={handleSubmit}
-            disabled={loading}
+            disabled={loading || uploading}
             className="flex-[2] p-5 bg-[#264653] text-white font-black uppercase text-[10px] tracking-[0.3em] flex justify-center items-center gap-3 hover:bg-[#2A9D8F] transition-all disabled:opacity-50"
           >
-            {loading ? (
-              <Loader2 className="animate-spin" />
-            ) : (
+            {loading ? <Loader2 className="animate-spin" /> : (
               <>
                 <Save size={16} />
                 {editItem ? "আপডেট সংরক্ষণ করুন" : "সিস্টেমে সেভ করুন"}

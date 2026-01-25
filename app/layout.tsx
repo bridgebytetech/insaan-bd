@@ -31,16 +31,23 @@
 // app/layout.tsx
 import "./globals.css";
 import type { Metadata } from "next";
+import { hind_siliguri, figtree } from "@/app/ui/fonts";
 
 export const metadata: Metadata = {
   title: "OrphanCare",
   description: "Donation platform for orphans in Bangladesh",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className={`${hind_siliguri.variable} ${figtree.variable}`}>
+      <body style={{ fontFamily: 'var(--font-figtree), var(--font-hind), sans-serif' }}>
+        {children}
+      </body>
     </html>
   );
 }

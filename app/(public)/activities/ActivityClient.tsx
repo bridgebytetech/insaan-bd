@@ -5,6 +5,7 @@ import {
   Calendar, MapPin, ArrowRight, Zap, Globe, Heart, 
   Phone, Mail, Facebook, Instagram, Youtube, Linkedin, ArrowUp 
 } from 'lucide-react';
+import Link from 'next/link';
 import { motion } from "framer-motion";
 
 interface ActivityClientProps {
@@ -13,6 +14,16 @@ interface ActivityClientProps {
 
 export default function ActivityClient({ items }: ActivityClientProps) {
   const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // --- Helper to handle image URL ---
+  const getImageUrl = (url: string) => {
+    if (!url) return "";
+    // যদি ইউআরএলটি আগে থেকেই http দিয়ে শুরু হয় তবে সেটিই থাকবে
+    // অন্যথায় আমাদের পাবলিক ফাইল এপিআই পাথ যোগ হবে
+    return url.startsWith("http") 
+      ? url 
+      : `https://api.insaanbd.org/api/public/files/${url}`;
+  };
 
   // --- Scroll Logic for Footer ---
   useEffect(() => {
@@ -25,25 +36,24 @@ export default function ActivityClient({ items }: ActivityClientProps) {
 
   return (
     <div className="w-full bg-[#FDFDFD]">
-      {/* --- High Impact Sharp Header --- */}
-      <div className="w-full bg-[#264653] pt-40 pb-20 px-6 border-b-8 border-[#2A9D8F]">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-2 mb-4">
+      {/* --- High Impact Clean Header --- */}
+      <div className="w-full bg-[#F8FAFB] pt-48 pb-24 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center gap-2 mb-6">
             <Zap size={18} className="text-[#2A9D8F] fill-[#2A9D8F]" />
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/60">Impact Report</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[#264653]/40">Impact Report</span>
           </div>
-          <h1 className="text-5xl md:text-8xl font-black text-white uppercase tracking-tighter leading-none">
+          <h1 className="text-5xl md:text-8xl font-black text-[#264653] uppercase tracking-tighter leading-none">
             আমাদের <span className="text-[#2A9D8F]">কার্যক্রম</span>
           </h1>
-          <p className="mt-8 text-white/60 max-w-xl text-lg font-medium border-l-4 border-[#2A9D8F] pl-6 leading-relaxed">
+          <p className="mt-8 text-gray-500 max-w-xl text-lg font-medium border-l-4 border-[#2A9D8F] pl-6 leading-relaxed">
             আর্তমানবতার সেবায় ইনসান ফাউন্ডেশনের প্রতিটি পদক্ষেপের গল্প। আমরা কেবল সেবা দিই না, আমরা ভবিষ্যতের ভিত্তি গড়ি।
           </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 -mt-10 relative z-10">
-        {/* --- Sharp Stats Bar --- */}
-        <div className="bg-white border border-gray-200 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 shadow-2xl">
+      <div className="max-w-7xl mx-auto px-6 -mt-12 relative z-10">
+        <div className="bg-white border border-gray-100 p-8 grid grid-cols-2 md:grid-cols-4 gap-8 shadow-xl">
           <div>
             <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Total Activities</p>
             <p className="text-3xl font-black text-[#264653] tracking-tighter">{items.length}+</p>
@@ -75,7 +85,7 @@ export default function ActivityClient({ items }: ActivityClientProps) {
             >
               <div className="relative h-72 overflow-hidden bg-gray-200">
                 <img 
-                  src={activity.activityPhotoUrl} 
+                  src={getImageUrl(activity.activityPhotoUrl)} 
                   alt={activity.activityTitle}
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                 />
@@ -106,10 +116,13 @@ export default function ActivityClient({ items }: ActivityClientProps) {
                 </p>
 
                 <div className="mt-auto">
-                  <button className="w-full flex items-center justify-between p-4 border border-[#264653] text-[#264653] font-black text-[10px] uppercase tracking-[0.3em] group/btn hover:bg-[#264653] hover:text-white transition-all">
-                    বিস্তারিত বিবরণ
-                    <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
+                  <Link 
+  href={`/activities/${activity.activityId}`}
+  className="w-full flex items-center justify-between p-4 border border-[#264653] text-[#264653] font-black text-[10px] uppercase tracking-[0.3em] group/btn hover:bg-[#264653] hover:text-white transition-all"
+>
+  বিস্তারিত বিবরণ
+  <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+</Link>
                 </div>
               </div>
             </motion.div>
@@ -124,99 +137,7 @@ export default function ActivityClient({ items }: ActivityClientProps) {
         )}
       </div>
 
-      {/* --- FOOTER INTEGRATION --- */}
-      <footer className="relative bg-[#264653] pt-24 pb-12 overflow-hidden border-t-4 border-[#2A9D8F]">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 lg:gap-24 pb-20 border-b border-white/10">
-            {/* Brand & Socials */}
-            <div className="lg:col-span-5 space-y-8">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-[#2A9D8F] rounded-2xl flex items-center justify-center shadow-xl shadow-[#2A9D8F]/20">
-                  <Heart className="w-6 h-6 text-white" fill="white" />
-                </div>
-                <h3 className="text-3xl font-black text-white tracking-tighter">
-                  ইনসান <span className="text-[#2A9D8F]">বিডি</span>
-                </h3>
-              </div>
-              <p className="text-white/60 text-lg leading-relaxed max-w-md">
-                সুবিধাবঞ্চিত ও এতিম শিশুদের জন্য একটি সুন্দর ও নিরাপদ পৃথিবী গড়ার লক্ষ্যে আমরা কাজ করছি। আপনার দান তাদের ভবিষ্যৎ।
-              </p>
-              <div className="flex gap-4">
-                {[Facebook, Instagram, Youtube, Linkedin].map((Icon, i) => (
-                  <a key={i} href="#" className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#2A9D8F] hover:text-white transition-all border border-white/5 group">
-                    <Icon size={20} className="group-hover:scale-110 transition-transform" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Links Grid */}
-            <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-12">
-              <div className="space-y-6">
-                <h4 className="text-white font-bold text-sm uppercase tracking-widest border-b border-[#2A9D8F] pb-2 inline-block">এক্সপ্লোর</h4>
-                <ul className="space-y-4">
-                  {["হোম", "সম্পর্কে", "কার্যক্রম", "গ্যালারি"].map((link) => (
-                    <li key={link}>
-                      <a href="#" className="text-white/40 hover:text-[#2A9D8F] transition-colors text-sm font-medium">{link}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="space-y-6">
-                <h4 className="text-white font-bold text-sm uppercase tracking-widest border-b border-[#E76F51] pb-2 inline-block">অংশগ্রহণ</h4>
-                <ul className="space-y-4">
-                  {[
-                    { en: "Become a Donor", bn: "দাতা হিসেবে যুক্ত হোন" },
-                    { en: "Volunteer", bn: "স্বেচ্ছাসেবী" },
-                    { en: "Fundraise", bn: "তহবিল সংগ্রহ" },
-                    { en: "Partnership", bn: "অংশীদারিত্ব" }
-                  ].map((link) => (
-                    <li key={link.en}>
-                      <a href="#" className="text-white/40 hover:text-white transition-colors text-sm font-medium">{link.bn}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="col-span-2 sm:col-span-1 space-y-6">
-                <h4 className="text-white font-bold text-sm uppercase tracking-widest border-b border-[#2A9D8F] pb-2 inline-block">যোগাযোগ</h4>
-                <div className="space-y-4">
-                  <div className="flex gap-3">
-                    <MapPin size={18} className="text-[#2A9D8F] shrink-0" />
-                    <p className="text-white/40 text-sm leading-snug">উত্তরা, ঢাকা, বাংলাদেশ</p>
-                  </div>
-                  <a href="tel:+" className="flex items-center gap-3 text-white/40 hover:text-white transition-colors text-sm font-medium">
-                    <Phone size={18} className="text-[#2A9D8F]" />
-                    +৮৮০ ১৭০০-০০০০০০
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Legal Bar */}
-          <div className="pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
-            <p className="text-white/20 text-xs font-bold uppercase tracking-[0.2em]">
-              © ২০২৬ ইনসান বিডি। ভালোবাসার সাথে নির্মিত।
-            </p>
-            <div className="flex gap-8">
-              <a href="#" className="text-white/20 hover:text-[#2A9D8F] text-[10px] font-bold uppercase tracking-widest">গোপনীয়তা নীতি</a>
-              <a href="#" className="text-white/20 hover:text-[#2A9D8F] text-[10px] font-bold uppercase tracking-widest">পরিষেবার শর্তাবলী</a>
-            </div>
-          </div>
-        </div>
-
-        {/* Floating Scroll Top */}
-        {showBackToTop && (
-          <button
-            onClick={scrollToTop}
-            className="fixed bottom-8 right-8 w-14 h-14 bg-[#2A9D8F] text-white rounded-2xl shadow-2xl flex items-center justify-center z-50 hover:scale-110 active:scale-95 transition-all"
-          >
-            <ArrowUp size={24} strokeWidth={3} />
-          </button>
-        )}
-      </footer>
+    
     </div>
   );
 }

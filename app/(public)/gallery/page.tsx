@@ -2,6 +2,7 @@
 import GalleryClient from "@/app/(public)/gallery/GalleryClient";
 import api from "@/app/lib/api/axios";
 import { GalleryItem } from "@/app/lib/types/index";
+import Footer from "@/app/components/shared/Footer";
 
 async function getGalleryData(): Promise<GalleryItem[]> {
   try {
@@ -18,6 +19,7 @@ export default async function GalleryPage() {
   return (
     <main className="bg-white min-h-screen">
       <GalleryClient items={galleryItems} />
+      <Footer />
     </main>
   );
 }

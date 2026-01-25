@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
   LayoutDashboard, Users, HandHeart, CircleDollarSign, 
-  Image as ImageIcon, Star, Settings, X, Activity, Link2 
+  Image as ImageIcon, Star, Settings, X, Activity, Link2 ,MessageSquareQuote,ShieldCheck,Globe
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -22,7 +22,10 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
     { href: '/admin/donations', label: 'Donations', icon: CircleDollarSign },
     { href: '/admin/activities', label: 'Activities', icon: Activity },
     { href: '/admin/gallery', label: 'Gallery', icon: ImageIcon },
-    { href: '/admin/success-stories', label: 'Stories', icon: Star },
+    { href: '/admin/reviews', label: 'Reviews', icon: MessageSquareQuote }, // নতুন রিভিউ অপশন
+    // { href: '/admin/success-stories', label: 'Stories', icon: Star },\
+    { href: '/admin/volunteer', label: 'Volunteers', icon: ShieldCheck }, // নতুন ভলান্টিয়ার অপশন যুক্ত করা হলো
+    { href: '/admin/public-donation', label: 'Public Donations', icon: Globe }, // নতুন ভলান্টিয়ার অপশন যুক্ত করা হলো
   ];
 
   return (
@@ -43,7 +46,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         {/* Logo Section */}
         <div className="p-6 border-b border-[#2A9D8F]/20 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-[#2A9D8F] tracking-tight">OrphanCare</h1>
+            <h1 className="text-2xl font-bold text-[#2A9D8F] tracking-tight">Insaan BD</h1>
             <p className="text-[10px] text-[#EDF4E8]/50 uppercase tracking-[0.2em]">Management System</p>
           </div>
           <button 

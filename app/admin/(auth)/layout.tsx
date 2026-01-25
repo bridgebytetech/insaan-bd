@@ -41,7 +41,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 
           {/* Footer Info */}
           <p className="text-center mt-8 text-xs text-gray-400 font-medium uppercase tracking-widest">
-            © 2024 Insaan BD · Pure Humanity
+            © 2026 Insaan BD · Pure Humanity
           </p>
         </div>
       </main>

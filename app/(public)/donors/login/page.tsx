@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Mail, Lock, ArrowRight, ShieldCheck, Eye, EyeOff } from "lucide-react";
-import { donorService } from "@/app/lib/services/donorService";
+import donorServicePublic from "@/app/lib/services/donorServicePublic";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -15,15 +16,26 @@ export default function LoginPage() {
     password: "",
   });
 
-  // যদি আগে থেকেই লগইন করা থাকে তবে ড্যাশবোর্ডে পাঠিয়ে দিবে
+  // ১. সেশন চেক: যদি আগে থেকেই লগইন করা থাকে
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
-      const user = JSON.parse(localStorage.getItem("user") || "{}");
-      if (user.role === "ADMIN") router.push("/admin/dashboard");
-      else router.push("/donor/dashboard");
+      const userStr = localStorage.getItem("user");
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        redirectBasedOnRole(user.role);
+      }
     }
   }, [router]);
+
+  // ২. রোল অনুযায়ী রিডাইরেক্ট ফাংশন
+  const redirectBasedOnRole = (role: string) => {
+    if (role === "ADMIN") {
+      router.push("/admin/dashboard");
+    } else {
+      router.push("/donors/profile");
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,36 +46,42 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const res = await donorService.login(formData);
+      const res = await donorServicePublic.login(formData);
 
-      if (res.success && res.data.accessToken) {
-        // ১. টোকেন সেভ করা
-        localStorage.setItem("accessToken", res.data.accessToken);
+      // আপনার API রেসপন্স স্ট্রাকচার অনুযায়ী চেক
+      if (res.success && res.data) {
+        const { accessToken, refreshToken, name, email, role, userId } = res.data;
 
-        // ২. ইউজার প্রোফাইল সেভ করা
+        // localStorage এ ডেটা সেভ করা
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken); // ভবিষ্যতের জন্য সেভ রাখা ভালো
         localStorage.setItem(
           "user",
           JSON.stringify({
-            name: res.data.name,
-            email: res.data.email,
-            role: res.data.role,
-            userId: res.data.userId,
-          }),
+            name,
+            email,
+            role,
+            userId,
+          })
         );
 
-        toast.success(`স্বাগতম, ${res.data.name}!`);
+        toast.success(res.message || `স্বাগতম, ${name}!`, {
+          icon: '👋',
+          duration: 4000
+        });
 
-        // ৩. রোল অনুযায়ী রিডাইরেক্ট (Admin বা Donor)
-        if (res.data.role === "ADMIN") {
-          router.push("/admin/dashboard");
-        } else {
-          router.push("/donor/dashboard");
-        }
+        // রোল অনুযায়ী রিডাইরেক্ট
+        setTimeout(() => {
+          redirectBasedOnRole(role);
+        }, 1500);
       }
     } catch (err: any) {
-      const errorMsg =
-        err.response?.data?.message || "লগইন ব্যর্থ হয়েছে। তথ্য যাচাই করুন।";
+      // ব্যাকএন্ড থেকে আসা এরর মেসেজ হ্যান্ডলিং
+      const errorMsg = err.response?.data?.message || "লগইন ব্যর্থ হয়েছে। তথ্য যাচাই করুন।";
+      
+      // যদি ইমেইল ভেরিফাই না থাকে বা অ্যাডমিন পেন্ডিং থাকে, ব্যাকএন্ড মেসেজ দেখাবে
       toast.error(errorMsg);
+      console.error("Login Error:", err);
     } finally {
       setLoading(false);
     }
@@ -75,7 +93,11 @@ export default function LoginPage() {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#ECF4E8] rounded-full blur-[120px] -z-10 opacity-60" />
       <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#2A9D8F]/5 rounded-full blur-[100px] -z-10" />
 
-      <div className="max-w-md w-full">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-md w-full"
+      >
         <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 relative">
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#2A9D8F]/10 rounded-full text-[#2A9D8F] font-bold text-[10px] uppercase tracking-widest mb-4">
@@ -93,7 +115,7 @@ export default function LoginPage() {
             {/* Email Field */}
             <div className="space-y-2">
               <label className="text-xs font-black uppercase tracking-widest text-[#264653]/60 ml-1">
-                ইমেইল ঠিকানা
+                イমেইল ঠিকানা
               </label>
               <div className="relative">
                 <Mail
@@ -104,6 +126,7 @@ export default function LoginPage() {
                   type="email"
                   name="email"
                   required
+                  value={formData.email}
                   onChange={handleChange}
                   className="w-full pl-12 pr-4 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-[#2A9D8F]/20 outline-none text-[#264653] font-medium transition-all"
                   placeholder="name@example.com"
@@ -117,9 +140,11 @@ export default function LoginPage() {
                 <label className="text-xs font-black uppercase tracking-widest text-[#264653]/60">
                   পাসওয়ার্ড
                 </label>
-                <span className="text-[10px] font-bold text-[#2A9D8F] cursor-pointer hover:underline">
-                  পাসওয়ার্ড ভুলে গেছেন?
-                </span>
+                <Link href="/forgot-password">
+                  <span className="text-[10px] font-bold text-[#2A9D8F] cursor-pointer hover:underline">
+                    পাসওয়ার্ড ভুলে গেছেন?
+                  </span>
+                </Link>
               </div>
               <div className="relative">
                 <Lock
@@ -130,6 +155,7 @@ export default function LoginPage() {
                   type={showPassword ? "text" : "password"}
                   name="password"
                   required
+                  value={formData.password}
                   onChange={handleChange}
                   className="w-full pl-12 pr-12 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-[#2A9D8F]/20 outline-none text-[#264653] transition-all"
                   placeholder="••••••••"
@@ -150,12 +176,23 @@ export default function LoginPage() {
               disabled={loading}
               className="w-full py-5 bg-[#264653] text-white rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] shadow-xl shadow-[#264653]/20 hover:bg-[#2A9D8F] transition-all flex items-center justify-center gap-3 group mt-4"
             >
-              {loading ? "অপেক্ষা করুন..." : "লগইন করুন"}
-              {!loading && (
-                <ArrowRight
-                  size={18}
-                  className="group-hover:translate-x-2 transition-transform"
-                />
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 1 }}
+                    className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+                  />
+                  অপেক্ষা করুন...
+                </span>
+              ) : (
+                <>
+                  লগইন করুন
+                  <ArrowRight
+                    size={18}
+                    className="group-hover:translate-x-2 transition-transform"
+                  />
+                </>
               )}
             </button>
           </form>
@@ -173,11 +210,10 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Bottom Footer Note */}
         <p className="text-center mt-10 text-[10px] text-gray-400 uppercase tracking-[0.2em] font-bold">
           © 2026 Insaan BD Foundation. All Rights Reserved.
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 }

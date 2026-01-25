@@ -2,6 +2,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Eye, Heart, Gift, Smile, ChevronRight, Zap, Target, Activity } from "lucide-react";
 import { useRef } from "react";
+import Link from "next/link"; // এটি সবার উপরে ইমপোর্ট করুন
 
 const steps = [
   { 
@@ -147,26 +148,44 @@ export default function HowItWorks() {
         </div>
 
         {/* --- PREMIUM CTA FOOTER --- */}
-        <div className="mt-32 relative group">
-          <div className="absolute inset-0 bg-[#264653] skew-y-[-1deg] group-hover:skew-y-0 transition-transform duration-700" />
-          <div className="relative p-10 md:p-20 flex flex-col lg:flex-row items-center justify-between gap-12">
-             <div className="text-center lg:text-left space-y-4">
-                <h3 className="text-white text-4xl md:text-5xl font-black tracking-tighter leading-tight">
-                   একটি জীবন পরিবর্তনের <br /> 
-                   <span className="text-[#2A9D8F]">প্রথম ধাপ</span> নিন আজই।
-                </h3>
-                <p className="text-white/40 font-mono text-xs uppercase tracking-[0.5em]">System Status: Ready for Donation</p>
-             </div>
-             
-             <button className="relative group/btn overflow-hidden bg-[#2A9D8F] text-white px-12 py-6 font-black uppercase text-[10px] tracking-[0.4em] shadow-2xl transition-all">
-                <span className="relative z-10 flex items-center gap-4">
-                   শুরু করুন <ChevronRight size={18} />
-                </span>
-                <div className="absolute inset-0 bg-white translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300" />
-                <div className="absolute inset-0 border border-white opacity-20 scale-90 group-hover/btn:scale-100 transition-transform" />
-             </button>
+        <div className="mt-32 relative group p-[1px] overflow-hidden rounded-[2rem] bg-gradient-to-r from-gray-200 via-[#2A9D8F]/20 to-gray-200">
+  {/* ডাইনামিক ব্যাকগ্রাউন্ড গ্রেডিয়েন্ট */}
+  <div className="absolute inset-0 bg-[#264653] transition-colors duration-700 group-hover:bg-[#1d353f]" />
+  
+  <div className="relative p-12 md:p-24 flex flex-col lg:flex-row items-center justify-between gap-16">
+    {/* বাম পাশের টেক্সট কন্টেন্ট */}
+    <div className="relative z-10 text-center lg:text-left space-y-6">
+      <div className="flex items-center justify-center lg:justify-start gap-4">
+        <div className="h-[1px] w-8 bg-[#2A9D8F]" />
+        <span className="text-[10px] font-black text-[#2A9D8F] uppercase tracking-[0.5em]">Join the movement</span>
+      </div>
+      
+      <h3 className="text-white text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] lg:max-w-xl">
+        একটি শিশুর হাসি <br /> 
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2A9D8F] to-emerald-200">আপনার অপেক্ষায়।</span>
+      </h3>
+    </div>
+
+    {/* ডান পাশের ইন্টারেক্টিভ বাটন */}
+    <div className="relative">
+      <Link href="/orphans">
+        <motion.button 
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="relative z-10 bg-white text-[#264653] px-14 py-8 font-black uppercase text-[11px] tracking-[0.4em] shadow-[0_20px_50px_rgba(42,157,143,0.3)] transition-all flex items-center gap-4 group/btn"
+        >
+          সহায়তা করুন 
+          <div className="bg-[#2A9D8F] p-1 rounded-full group-hover/btn:translate-x-2 transition-transform">
+             <ChevronRight size={16} className="text-white" />
           </div>
-        </div>
+        </motion.button>
+      </Link>
+      
+      {/* অলংকারিক ইলিমেন্ট */}
+      <div className="absolute -inset-4 border border-white/10 -z-0 scale-90 group-hover:scale-110 transition-transform duration-700" />
+    </div>
+  </div>
+</div>
 
       </div>
     </section>

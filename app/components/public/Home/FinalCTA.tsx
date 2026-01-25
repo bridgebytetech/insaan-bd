@@ -1,8 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
 import { Heart, ArrowRight, Phone, ShieldCheck, Zap, Mail, ArrowUpRight } from "lucide-react";
-
+import Link from "next/link";
 export default function FinalCTA() {
+
   return (
     <section className="relative py-24 md:py-44 bg-[#F8F9FA] overflow-hidden">
       {/* --- ARCHITECTURAL GRID BACKGROUND --- */}
@@ -58,9 +59,16 @@ export default function FinalCTA() {
                   </span>
                 </button>
                 
-                <button className="group flex items-center gap-4 px-10 py-6 border border-gray-200 text-[#264653] font-black uppercase text-[11px] tracking-[0.3em] hover:bg-gray-50 transition-all">
-                  Donate <Heart size={18} className="text-[#E76F51] group-hover:scale-125 transition-transform" fill="#E76F51" />
-                </button>
+               <Link href="/donation">
+  <button className="group flex items-center gap-4 px-10 py-6 border border-gray-200 text-[#264653] font-black uppercase text-[11px] tracking-[0.3em] hover:bg-gray-50 transition-all">
+    Donate 
+    <Heart 
+      size={18} 
+      className="text-[#E76F51] group-hover:scale-125 transition-transform" 
+      fill="#E76F51" 
+    />
+  </button>
+</Link>
               </div>
             </div>
           </div>

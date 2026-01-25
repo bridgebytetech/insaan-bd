@@ -1,30 +1,28 @@
-// app/layout.tsx
-
-
-
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import Navbar from "@/app/components/public/Navbar";
-import { hind_siliguri } from "@/app/ui/fonts";
-const inter = Inter({ subsets: ["latin"] });
+import { AuthProvider } from "@/app/context/AuthContext";
+import { Toaster } from "react-hot-toast";
 
+export const metadata: Metadata = {
+  title: "Insaan BD Foundation",
+  description: "Pure Humanity - Supporting Orphan Children",
+};
 
-
-export default function RootLayout({
+export default function PublicLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
   return (
-    <html lang="en">
-      <body className={hind_siliguri.className}>
+    <AuthProvider>
+      <div className="public-layout" style={{ fontFamily: 'var(--font-hind), var(--font-figtree), sans-serif' }}>
         <Navbar />
-        {children}
-      </body>
-    </html>
+        <main>
+          {children}
+        </main>
+        <Toaster position="top-center" reverseOrder={false} />
+      </div>
+    </AuthProvider>
   );
 }
-
-
