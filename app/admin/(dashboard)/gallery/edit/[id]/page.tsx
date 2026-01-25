@@ -38,7 +38,7 @@ export default function GalleryEditPage() {
           setFormData({
             photoUrl: item.photoUrl,
             title: item.photoTitle,
-            description: item.photoDescription,
+            description: item.photoCaption,
             time: item.photoTime,
             displayOrder: item.displayOrder
           });
