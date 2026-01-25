@@ -1,4 +1,4 @@
-import api from "@/app/lib/api/donorApi"; // আপনার ডোনর এক্সিওস ইনস্ট্যান্স
+import api from "@/app/lib/api/donorApi";
 import axios from "axios";
 
 const donorProfileService = {
@@ -17,36 +17,40 @@ const donorProfileService = {
   },
 
   /**
-   * ২. প্রোফাইল তথ্য আপডেট
+   * ২. প্রোফাইল তথ্য আপডেট (Partial - যেকোনো field update করা যাবে)
    */
- // আপনার দেওয়া এন্ডপয়েন্ট অনুযায়ী আপডেট
-updateProfile: async (updateData: Partial<{ 
-  donorName: string; 
-  donorContact: string; 
-  donorAddress: string; 
-  donorMessage?: string;
-  preferredSupportType?: string;
-  donorDpUrl?: string;
-  organizationName?: string;
-  organizationRegistrationNo?: string;
-}>) => {
-  try {
-    const response = await api.put("/donor/profile", updateData);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-},
+  updateProfile: async (updateData: Partial<{
+    donorName: string;
+    donorContact: string;
+    donorAddress: string;
+    donorMessage: string;
+    preferredSupportType: string;
+    donorDpUrl: string;
+    organizationName: string;
+    organizationRegistrationNo: string;
+  }>) => {
+    try {
+      const response = await api.put("/donor/profile", updateData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 
-  // পাসওয়ার্ড পরিবর্তনের এন্ডপয়েন্ট (যদি থাকে)// --- Forgot Password Flow ---
+  /**
+   * ৩. Forgot Password
+   */
   forgotPassword: async (email: string) => {
     const response = await axios.post("https://api.insaanbd.org/api/auth/forgot-password", {
       email,
-      role: "DONOR" // আপনার এন্ডপয়েন্ট অনুযায়ী
+      role: "DONOR"
     });
     return response.data;
   },
 
+  /**
+   * ৪. Verify OTP
+   */
   verifyOtp: async (email: string, otp: string) => {
     const response = await axios.post("https://api.insaanbd.org/api/auth/forgot-password/verify-otp", {
       email,
@@ -54,8 +58,9 @@ updateProfile: async (updateData: Partial<{
     });
     return response.data;
   },
+
   /**
-   * ৩. ফাইল আপলোড (পাবলিক এন্ডপয়েন্ট)
+   * ৫. ফাইল আপলোড (পাবলিক এন্ডপয়েন্ট)
    */
   uploadDp: async (file: File) => {
     try {
@@ -72,7 +77,7 @@ updateProfile: async (updateData: Partial<{
   },
 
   /**
-   * ৪. শিশুদের সার্চ এবং ফিল্টার (পাবলিক এন্ডপয়েন্ট)
+   * ৬. শিশুদের সার্চ এবং ফিল্টার (পাবলিক এন্ডপয়েন্ট)
    */
   searchOrphans: async (params: {
     keyword?: string;
@@ -93,7 +98,7 @@ updateProfile: async (updateData: Partial<{
   },
 
   /**
-   * ৫. স্পন্সরশিপের জন্য কানেকশন রিকোয়েস্ট পাঠানো
+   * ৭. স্পন্সরশিপের জন্য কানেকশন রিকোয়েস্ট পাঠানো
    * Endpoint: POST /api/donor/connect
    */
   connectOrphan: async (data: { orphanId: number; requestMessage: string }) => {
@@ -107,7 +112,7 @@ updateProfile: async (updateData: Partial<{
   },
 
   /**
-   * ৬. বর্তমানে কানেক্টেড শিশুদের তালিকা দেখা
+   * ৮. বর্তমানে কানেক্টেড শিশুদের তালিকা দেখা
    * Endpoint: GET /api/donor/connections/active
    */
   getActiveConnections: async () => {
@@ -121,7 +126,7 @@ updateProfile: async (updateData: Partial<{
   },
 
   /**
-   * ৭. নির্দিষ্ট একটি শিশুর বিস্তারিত তথ্য দেখা (নতুন যোগ করা হয়েছে)
+   * ৯. নির্দিষ্ট একটি শিশুর বিস্তারিত তথ্য দেখা
    * Endpoint: GET /api/donor/orphans/{orphanId}
    */
   getOrphanDetails: async (orphanId: number) => {
@@ -135,7 +140,7 @@ updateProfile: async (updateData: Partial<{
   },
 
   /**
-   * ৮. ডোনেশন হিস্ট্রি দেখা
+   * ১০. ডোনেশন হিস্ট্রি দেখা
    * Endpoint: GET /api/donor/donations
    */
   getDonations: async () => {
@@ -149,7 +154,7 @@ updateProfile: async (updateData: Partial<{
   },
 
   /**
-   * ৯. কানেকশন ডিসকানেক্ট করা
+   * ১১. কানেকশন ডিসকানেক্ট করা
    */
   disconnectOrphan: async (data: { connectionId: number; disconnectReason: string }) => {
     try {
@@ -162,9 +167,13 @@ updateProfile: async (updateData: Partial<{
   },
 
   /**
-   * ১০. পাসওয়ার্ড পরিবর্তন
+   * ১২. পাসওয়ার্ড পরিবর্তন
    */
-  changePassword: async (passwordData: any) => {
+  changePassword: async (passwordData: {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  }) => {
     try {
       const response = await api.post("/donor/change-password", passwordData);
       return response.data;
@@ -174,7 +183,7 @@ updateProfile: async (updateData: Partial<{
   },
 
   /**
-   * ১১. সকল এতিম শিশুদের তালিকা আনা (পাবলিক)
+   * ১৩. সকল এতিম শিশুদের তালিকা আনা (পাবলিক)
    * Endpoint: GET /api/public/orphans
    */
   getAvailableOrphans: async () => {
@@ -187,17 +196,23 @@ updateProfile: async (updateData: Partial<{
     }
   },
 
-  // donorProfileService.ts এ যোগ করুন
-makeDonation: async (donationData: any) => {
-  try {
-    const response = await api.post("/donor/donations", donationData);
-    return response.data;
-  } catch (error) {
-    console.error("Error making donation:", error);
-    throw error;
-  }
-},
-  
+  /**
+   * ১৪. ডোনেশন করা
+   */
+  makeDonation: async (donationData: {
+    amount: number;
+    orphanId?: number;
+    donationType?: string;
+    message?: string;
+  }) => {
+    try {
+      const response = await api.post("/donor/donations", donationData);
+      return response.data;
+    } catch (error) {
+      console.error("Error making donation:", error);
+      throw error;
+    }
+  },
 };
 
 export default donorProfileService;
