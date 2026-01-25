@@ -36,7 +36,7 @@ export default function GalleryClient({ items }: GalleryClientProps) {
           </div>
           <h1 className="text-6xl md:text-9xl font-black text-[#264653] uppercase tracking-tighter leading-[0.8]">
             স্মৃতির <br /> 
-            <span className="text-gray-200">অ্যালবাম</span>
+            <span className="text-[#2A9D8F]">অ্যালবাম</span>
           </h1>
         </div>
       </div>

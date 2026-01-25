@@ -64,13 +64,13 @@ export default function WhyChooseUs() {
               <p className="text-[#264653] font-black text-3xl tracking-tighter">১০০% ভেরিফাইড</p>
               <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-2">অডিট সম্পন্ন ও পাবলিক রিপোর্ট</p>
             </div>
-
+{/* 
             <button className="relative overflow-hidden group flex items-center gap-4 bg-[#264653] text-white px-10 py-6 font-black uppercase text-[11px] tracking-[0.4em] transition-all">
               <span className="relative z-10 flex items-center gap-3">
                 Transparency Report <ArrowUpRight size={18} />
               </span>
               <div className="absolute inset-0 bg-[#2A9D8F] translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-            </button>
+            </button> */}
           </div>
 
           {/* Right Side: Features Grid */}

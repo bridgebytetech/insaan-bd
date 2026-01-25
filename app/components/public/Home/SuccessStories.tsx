@@ -54,20 +54,20 @@ export default function SuccessStories() {
   }
 
   return (
-    <section className="py-24 md:py-40 bg-white relative overflow-hidden">
+    <section className="max-w-7xl mx-auto py-24 md:py-40relative overflow-hidden">
       {/* Editorial Decorative Background */}
       <div className="absolute top-0 right-0 w-1/4 h-full bg-[#F8F9FA] -z-0 hidden lg:block" />
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         {/* --- DYNAMIC HEADER --- */}
-        <div className="flex flex-col lg:flex-row items-end justify-between mb-24 gap-12">
+        <div className="mx-auto flex flex-col lg:flex-row items-end justify-between mb-24 gap-12">
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <span className="w-12 h-[2px] bg-[#2A9D8F]" />
               <span className="text-[#2A9D8F] font-black uppercase tracking-[0.6em] text-[10px]">Unified Voices</span>
             </div>
-            <h2 className="text-6xl md:text-8xl font-black text-[#264653] tracking-tighter leading-[0.85]">
+            <h2 className="text-5xl md:text-8xl font-black text-[#264653] tracking-tighter leading-[0.85]">
               শুভাকাঙ্ক্ষীদের <br /> <span className="text-gray-200">মতামত</span>
             </h2>
           </div>
@@ -153,8 +153,8 @@ export default function SuccessStories() {
         </div>
 
         {/* --- REVIEW SUBMISSION FORM --- */}
-        <div className="mt-20 border border-gray-100 bg-[#FDFCFB] overflow-hidden relative group">
-          <div className="absolute top-0 right-0 w-32 h-full bg-[#2A9D8F]/5 -z-0" />
+        <div className="mt-20 border border-gray-100  overflow-hidden relative group">
+          <div className="absolute top-0 right-0 w-32 h-full -z-0" />
           
           <div className="grid grid-cols-1 lg:grid-cols-12 relative z-10">
             <div className="lg:col-span-5 p-10 md:p-16 border-b lg:border-b-0 lg:border-r border-gray-100">

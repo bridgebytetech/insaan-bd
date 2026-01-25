@@ -70,7 +70,7 @@ export default function DonorList() {
               </div>
               <h1 className="text-5xl md:text-8xl font-black text-[#264653] tracking-tighter leading-[0.85] uppercase">
                 সম্মানিত <br /> 
-                <span className="text-gray-200">দাতাবৃন্দ</span>
+                <span className="text-[#2A9D8F]">দাতাবৃন্দ</span>
               </h1>
               <p className="mt-8 text-gray-500 font-medium text-lg border-l-4 border-gray-100 pl-6 max-w-lg">
                 ইনসান ফাউন্ডেশনের অগ্রযাত্রায় যে মানুষগুলো এতিম শিশুদের উজ্জ্বল ভবিষ্যতের সঙ্গী হয়েছেন।
