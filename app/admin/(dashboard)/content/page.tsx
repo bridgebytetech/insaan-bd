@@ -1,4 +1,4 @@
-export default function Page() {
+export default function ContentPage() {
   return (
     <div className="p-6">
       <div className="bg-white rounded-3xl p-12 text-caenter shadow-lg border border-gray-100">
