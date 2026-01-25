@@ -4,7 +4,6 @@ import axios from "axios";
 const donorProfileService = {
   /**
    * ১. ডোনার প্রোফাইল ডাটা গেট করা
-   * Endpoint: GET /api/donor/profile
    */
   getProfile: async () => {
     try {
@@ -17,7 +16,7 @@ const donorProfileService = {
   },
 
   /**
-   * ২. প্রোফাইল তথ্য আপডেট (Partial - যেকোনো field update করা যাবে)
+   * ২. প্রোফাইল তথ্য আপডেট
    */
   updateProfile: async (updateData: Partial<{
     donorName: string;
@@ -60,7 +59,7 @@ const donorProfileService = {
   },
 
   /**
-   * ৫. ফাইল আপলোড (পাবলিক এন্ডপয়েন্ট)
+   * ৫. ফাইল আপলোড
    */
   uploadDp: async (file: File) => {
     try {
@@ -77,7 +76,7 @@ const donorProfileService = {
   },
 
   /**
-   * ৬. শিশুদের সার্চ এবং ফিল্টার (পাবলিক এন্ডপয়েন্ট)
+   * ৬. শিশুদের সার্চ
    */
   searchOrphans: async (params: {
     keyword?: string;
@@ -98,8 +97,7 @@ const donorProfileService = {
   },
 
   /**
-   * ৭. স্পন্সরশিপের জন্য কানেকশন রিকোয়েস্ট পাঠানো
-   * Endpoint: POST /api/donor/connect
+   * ৭. কানেকশন রিকোয়েস্ট
    */
   connectOrphan: async (data: { orphanId: number; requestMessage: string }) => {
     try {
@@ -112,8 +110,7 @@ const donorProfileService = {
   },
 
   /**
-   * ৮. বর্তমানে কানেক্টেড শিশুদের তালিকা দেখা
-   * Endpoint: GET /api/donor/connections/active
+   * ৮. একটিভ কানেকশন
    */
   getActiveConnections: async () => {
     try {
@@ -126,8 +123,7 @@ const donorProfileService = {
   },
 
   /**
-   * ৯. নির্দিষ্ট একটি শিশুর বিস্তারিত তথ্য দেখা
-   * Endpoint: GET /api/donor/orphans/{orphanId}
+   * ৯. শিশুর বিস্তারিত
    */
   getOrphanDetails: async (orphanId: number) => {
     try {
@@ -140,8 +136,7 @@ const donorProfileService = {
   },
 
   /**
-   * ১০. ডোনেশন হিস্ট্রি দেখা
-   * Endpoint: GET /api/donor/donations
+   * ১০. ডোনেশন হিস্ট্রি
    */
   getDonations: async () => {
     try {
@@ -154,7 +149,7 @@ const donorProfileService = {
   },
 
   /**
-   * ১১. কানেকশন ডিসকানেক্ট করা
+   * ১১. ডিসকানেক্ট
    */
   disconnectOrphan: async (data: { connectionId: number; disconnectReason: string }) => {
     try {
@@ -183,8 +178,7 @@ const donorProfileService = {
   },
 
   /**
-   * ১৩. সকল এতিম শিশুদের তালিকা আনা (পাবলিক)
-   * Endpoint: GET /api/public/orphans
+   * ১৩. সকল এতিম শিশু
    */
   getAvailableOrphans: async () => {
     try {
@@ -197,13 +191,15 @@ const donorProfileService = {
   },
 
   /**
-   * ১৪. ডোনেশন করা
+   * ১৪. ডোনেশন করা - Fixed Type
    */
   makeDonation: async (donationData: {
-    amount: number;
     orphanId?: number;
-    donationType?: string;
-    message?: string;
+    donationDate: string;
+    donationAmount: number;
+    donationDescription?: string;
+    receiptUrl?: string;
+    transactionId?: string;
   }) => {
     try {
       const response = await api.post("/donor/donations", donationData);
