@@ -1,32 +1,4 @@
-// import api from "@/app/lib/api/axios"; // আপনার axios ফাইলটির সঠিক পাথ
 
-// const donorServicePublic = {
-//   // ১. ডোনার রেজিস্ট্রেশন
-//   registerDonor: async (data: any) => {
-//     const response = await api.post("/auth/donor/register", data);
-//     return response.data;
-//   },
-
-//   // ২. OTP ভেরিফিকেশন
-//   verifyOtp: async (email: string, otp: string) => {
-//     const response = await api.post("/auth/donor/verify-otp", { email, otp });
-//     return response.data;
-//   },
-
-//   // ৩. পুনরায় OTP পাঠানো
-//   resendOtp: async (email: string) => {
-//     const response = await api.post("/auth/donor/resend-otp", { email });
-//     return response.data;
-//   },
-
-//   // ৪. লগইন (এটি আপনার ফাইলে মিসিং ছিল)
-//   login: async (credentials: any) => {
-//     const response = await api.post("/auth/login", credentials);
-//     return response.data;
-//   }
-// };
-
-// export default donorServicePublic;
 
 import api from "@/app/lib/api/donorApi"; // আপনার নতুন ডোনর এক্সিওস ফাইলটি ব্যবহার করুন
 

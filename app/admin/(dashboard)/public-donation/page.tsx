@@ -3,25 +3,38 @@
 import React, { useState, useEffect } from "react";
 import { 
   CheckCircle, XCircle, Trash2, Eye, Calendar, 
-  Phone, CreditCard, Clock, Search, ExternalLink, Loader2,
-  Hash, DollarSign, User as UserIcon, AlertCircle
+  Phone, CreditCard, Search, ExternalLink, Loader2,
+  AlertCircle
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import publicDonationService from "@/app/lib/services/publicDonationService"; 
 
+// ✅ Type definitions
+interface DonationItem {
+  id: number;
+  name: string;
+  phone: string;
+  amount: number;
+  transactionId: string;
+  receiptUrl: string;
+  donationDate: string;
+  createdAt: string;
+  description?: string;
+}
+
 export default function ManageDonationsPage() {
-  const [donations, setDonations] = useState([]);
+  const [donations, setDonations] = useState<DonationItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState("PENDING");
   const [searchQuery, setSearchQuery] = useState("");
-  const [isProcessing, setIsProcessing] = useState(null);
+  const [isProcessing, setIsProcessing] = useState<number | null>(null);
 
   // Modal States
-  const [selectedReceipt, setSelectedReceipt] = useState(null);
-  const [deleteId, setDeleteId] = useState(null);
+  const [selectedReceipt, setSelectedReceipt] = useState<string | null>(null);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
-  const getFullFileUrl = (filename) => {
+  const getFullFileUrl = (filename: string | null): string | null => {
     if (!filename || filename === "string") return null;
     return filename.startsWith("http") 
       ? filename 
@@ -44,7 +57,7 @@ export default function ManageDonationsPage() {
     fetchDonations();
   }, [filterStatus]);
 
-  const handleStatusUpdate = async (id, newStatus) => {
+  const handleStatusUpdate = async (id: number, newStatus: string) => {
     if (isProcessing) return;
     try {
       setIsProcessing(id);
@@ -59,7 +72,7 @@ export default function ManageDonationsPage() {
   };
 
   const handleDelete = async () => {
-    if (isProcessing) return;
+    if (isProcessing || !deleteId) return;
     try {
       setIsProcessing(deleteId);
       await publicDonationService.delete(deleteId);
@@ -73,7 +86,7 @@ export default function ManageDonationsPage() {
     }
   };
 
-  const filteredData = donations.filter(item => 
+  const filteredData = donations.filter((item: DonationItem) => 
     item.transactionId?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     item.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     item.id?.toString().includes(searchQuery)
@@ -134,12 +147,12 @@ export default function ManageDonationsPage() {
         ) : filteredData.length === 0 ? (
           <div className="text-center py-32 bg-white rounded-[3rem] border-2 border-dashed border-gray-100">
              <AlertCircle size={48} className="mx-auto text-gray-200 mb-4" />
-             <p className="text-gray-300 font-black text-xl">কোনো তথ্য খুঁজে পাওয়া যায়নি</p>
+             <p className="text-gray-300 font-black text-xl">কোনো তথ্য খুঁজে পাওয়া যায়নি</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             <AnimatePresence mode="popLayout">
-              {filteredData.map((item) => (
+              {filteredData.map((item: DonationItem) => (
                 <motion.div
                   layout
                   initial={{ opacity: 0, y: 20 }}
@@ -162,10 +175,10 @@ export default function ManageDonationsPage() {
                     >
                       {item.receiptUrl ? (
                         <img 
-                          src={getFullFileUrl(item.receiptUrl)} 
+                          src={getFullFileUrl(item.receiptUrl) || ""} 
                           className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-110" 
                           alt="receipt" 
-                          onError={(e) => { e.target.src = "https://placehold.co/100x100?text=Err"; }}
+                          onError={(e) => { (e.target as HTMLImageElement).src = "https://placehold.co/100x100?text=Err"; }}
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center"><CreditCard className="text-gray-300" /></div>
@@ -207,7 +220,7 @@ export default function ManageDonationsPage() {
                     </div>
 
                     <p className="text-[11px] text-gray-400 font-medium italic px-2 line-clamp-2">
-                      "{item.description || "No specific note provided"}"
+                      &quot;{item.description || "No specific note provided"}&quot;
                     </p>
                   </div>
 
@@ -259,12 +272,12 @@ export default function ManageDonationsPage() {
               </div>
               <div className="p-4 bg-gray-50">
                 <div className="rounded-[2rem] overflow-hidden shadow-inner bg-white border border-gray-100">
-                  <img src={getFullFileUrl(selectedReceipt)} className="w-full h-auto max-h-[60vh] object-contain" alt="Receipt" />
+                  <img src={getFullFileUrl(selectedReceipt) || ""} className="w-full h-auto max-h-[60vh] object-contain" alt="Receipt" />
                 </div>
               </div>
               <div className="p-8 flex justify-center">
                 <a 
-                  href={getFullFileUrl(selectedReceipt)} 
+                  href={getFullFileUrl(selectedReceipt) || ""} 
                   target="_blank" 
                   rel="noreferrer"
                   className="w-full flex items-center justify-center gap-2 bg-[#264653] text-white py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl shadow-[#264653]/30"
@@ -287,7 +300,7 @@ export default function ManageDonationsPage() {
                 {isProcessing === deleteId ? <Loader2 size={32} className="animate-spin" /> : <Trash2 size={32} />}
               </div>
               <h3 className="text-2xl font-black text-[#264653] mb-3 leading-tight">মুছে ফেলতে চান?</h3>
-              <p className="text-gray-400 text-sm font-medium mb-8 leading-relaxed px-4">এই রেকর্ডটি ডাটাবেস থেকে স্থায়ীভাবে মুছে ফেলা হবে।</p>
+              <p className="text-gray-400 text-sm font-medium mb-8 leading-relaxed px-4">এই রেকর্ডটি ডাটাবেস থেকে স্থায়ীভাবে মুছে ফেলা হবে।</p>
               <div className="flex flex-col gap-3">
                 <button 
                   disabled={isProcessing === deleteId}

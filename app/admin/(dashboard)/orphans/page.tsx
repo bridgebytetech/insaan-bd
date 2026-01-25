@@ -126,7 +126,7 @@ export default function AdminOrphanManagement() {
           <div key={orphan.orphanId} className="h-full"> 
             <OrphanCard 
               orphan={orphan} 
-              onDelete={(id) => setDeleteConfirm({ isOpen: true, id })}
+              onDelete={(id: number) => setDeleteConfirm({ isOpen: true, id })}
               onView={() => router.push(`/admin/orphans/${orphan.orphanId}`)}
             />
           </div>

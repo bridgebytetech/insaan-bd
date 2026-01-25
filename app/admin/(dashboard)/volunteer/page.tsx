@@ -4,18 +4,33 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Search, CheckCircle, XCircle, Trash2, 
-  Eye, Loader2, AlertTriangle, User, Users, ChevronRight
+  Loader2, AlertTriangle, User, Users, ChevronRight
 } from "lucide-react";
 import Link from 'next/link';
 import api from '@/app/lib/api/axios';
 import toast from 'react-hot-toast';
 
+// ✅ Type definitions
+interface Volunteer {
+  volunteerId: number;
+  volunteerName: string;
+  volunteerEmail: string;
+  volunteerDpUrl?: string;
+  volunteerStatus: string;
+}
+
+interface ConfirmModal {
+  isOpen: boolean;
+  id: number | null;
+  action: string | null;
+}
+
 export default function VolunteerManagement() {
-  const [volunteers, setVolunteers] = useState([]);
+  const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
-  const [confirmModal, setConfirmModal] = useState({ isOpen: false, id: null, action: null });
+  const [confirmModal, setConfirmModal] = useState<ConfirmModal>({ isOpen: false, id: null, action: null });
 
   const fetchVolunteers = useCallback(async (type = filter, keyword = search) => {
     setLoading(true);
@@ -43,6 +58,8 @@ export default function VolunteerManagement() {
 
   const executeAction = async () => {
     const { id, action } = confirmModal;
+    if (!id || !action) return;
+    
     try {
       if (action === 'approve') await api.put(`/admin/volunteers/${id}/approve`);
       else if (action === 'reject') await api.put(`/admin/volunteers/${id}/reject`);
@@ -120,7 +137,7 @@ export default function VolunteerManagement() {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
                 <AnimatePresence mode='popLayout'>
-                  {volunteers.map((v: any) => (
+                  {volunteers.map((v: Volunteer) => (
                     <motion.div 
                       layout 
                       initial={{ opacity: 0, scale: 0.95 }} 

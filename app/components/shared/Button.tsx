@@ -1,10 +1,14 @@
 // components/shared/Button.tsx
-import { ButtonHTMLAttributes } from 'react';
-import { motion } from 'framer-motion';
+"use client";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+import { ButtonHTMLAttributes } from 'react';
+import { motion, HTMLMotionProps } from 'framer-motion';
+
+interface ButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
+  children: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
+  className?: string;
 }
 
 export function Button({ 
