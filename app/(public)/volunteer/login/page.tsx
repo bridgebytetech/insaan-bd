@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Mail, Lock, Eye, EyeOff, ArrowRight, 
-  ShieldCheck, Loader2, key,
+  ShieldCheck, Loader2, Key,
   ArrowLeft
 } from "lucide-react";
 import Link from 'next/link';
@@ -126,9 +126,9 @@ export default function LoginPage() {
           </div>
 
           <div className="flex justify-end">
-            <Link href="/forgot_password" size={18} className="text-[11px] font-bold text-gray-400 hover:text-[#2A9D8F] uppercase tracking-widest">
-              Forgot Password?
-            </Link>
+            <Link href="/forgot_password" className="text-[11px] font-bold text-gray-400 hover:text-[#2A9D8F] uppercase tracking-widest">
+  Forgot Password?
+</Link>
           </div>
    
           {/* Status Alert */}

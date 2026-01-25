@@ -96,54 +96,52 @@ export default function OrphanRegistration() {
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-  const handleFileUpload = async (file, type) => {
-    if (!file) return;
+  const handleFileUpload = async (file: File, type: "photo" | "birth" | "death") => {
+  if (!file) return;
 
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    if (file.size > maxSize) {
-      toast.error("ফাইলের সাইজ ৫ এমবি-র কম হতে হবে");
-      return;
-    }
+  const maxSize = 5 * 1024 * 1024; // 5MB
+  if (file.size > maxSize) {
+    toast.error("ফাইলের সাইজ ৫ এমবি-র কম হতে হবে");
+    return;
+  }
 
-    setUploadingFiles((prev) => ({ ...prev, [type]: true }));
+  setUploadingFiles((prev) => ({ ...prev, [type]: true }));
 
-    try {
-      const formDataUpload = new FormData();
-      formDataUpload.append("file", file);
+  try {
+    const formDataUpload = new FormData();
+    formDataUpload.append("file", file);
 
-      const response = await axios.post(
-        "https://api.insaanbd.org/api/public/upload",
-        formDataUpload,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        },
-      );
-
-      if (response.data.success) {
-        const fileUrl = response.data.data.url;
-        setUploadedFiles((prev) => ({ ...prev, [type]: file.name }));
-
-        if (type === "photo") {
-          setFormData((prev) => ({ ...prev, orphanDpUrl: fileUrl }));
-        } else if (type === "birth") {
-          setFormData((prev) => ({ ...prev, birthCertificateUrl: fileUrl }));
-        } else if (type === "death") {
-          setFormData((prev) => ({
-            ...prev,
-            fatherDeathCertificateUrl: fileUrl,
-          }));
-        }
-
-        toast.success("ফাইল আপলোড সফল হয়েছে!");
+    const response = await axios.post(
+      "https://api.insaanbd.org/api/public/upload",
+      formDataUpload,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
       }
-    } catch (error) {
-      toast.error("ফাইল আপলোড ব্যর্থ হয়েছে, আবার চেষ্টা করুন");
-    } finally {
-      setUploadingFiles((prev) => ({ ...prev, [type]: false }));
-    }
-  };
+    );
 
-  const handleSubmit = async (e) => {
+    if (response.data.success) {
+      const fileUrl = response.data.data.url;
+      setUploadedFiles((prev) => ({ ...prev, [type]: file.name }));
+
+      if (type === "photo") {
+        setFormData((prev) => ({ ...prev, orphanDpUrl: fileUrl }));
+      } else if (type === "birth") {
+        setFormData((prev) => ({ ...prev, birthCertificateUrl: fileUrl }));
+      } else if (type === "death") {
+        setFormData((prev) => ({ ...prev, fatherDeathCertificateUrl: fileUrl }));
+      }
+
+      toast.success("ফাইল আপলোড সফল হয়েছে!");
+    }
+  } catch (error) {
+    toast.error("ফাইল আপলোড ব্যর্থ হয়েছে, আবার চেষ্টা করুন");
+  } finally {
+    setUploadingFiles((prev) => ({ ...prev, [type]: false }));
+  }
+};
+
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!formData.typeOfSupport) {
@@ -293,7 +291,7 @@ export default function OrphanRegistration() {
                       value={formData.orphanName}
                       placeholder="যেমন: মোহাম্মদ আব্দুল্লাহ"
                       className={`${inputStyle} pl-14`}
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setFormData({ ...formData, orphanName: e.target.value })
                       }
                     />
@@ -309,7 +307,7 @@ export default function OrphanRegistration() {
                       value={formData.orphanAge || ""}
                       placeholder="০"
                       className={inputStyle}
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>)  =>
                         setFormData({
                           ...formData,
                           orphanAge: Number(e.target.value),
@@ -322,7 +320,7 @@ export default function OrphanRegistration() {
                     <select
                       className={inputStyle}
                       value={formData.orphanGender}
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                         setFormData({
                           ...formData,
                           orphanGender: e.target.value,
@@ -358,7 +356,7 @@ export default function OrphanRegistration() {
                     type="text"
                     value={formData.orphanMotherName}
                     className={inputStyle}
-                    onChange={(e) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setFormData({
                         ...formData,
                         orphanMotherName: e.target.value,
@@ -380,7 +378,7 @@ export default function OrphanRegistration() {
                       value={formData.orphanAddress}
                       placeholder="গ্রাম, ডাকঘর, থানা, জেলা"
                       className={`${inputStyle} pl-14`}
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setFormData({
                           ...formData,
                           orphanAddress: e.target.value,
@@ -397,7 +395,7 @@ export default function OrphanRegistration() {
                     type="date"
                     value={formData.orphanDob}
                     className={inputStyle}
-                    onChange={(e) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setFormData({ ...formData, orphanDob: e.target.value })
                     }
                   />
@@ -418,7 +416,7 @@ export default function OrphanRegistration() {
       value={formData.orphanContact}
       placeholder="০১৭XXXXXXXX" // 'ঐচ্ছিক' এর বদলে ডেমো নাম্বার দিলে ইউজার বুঝবে এখানে কী দিতে হবে
       className={`${inputStyle} pl-14`}
-      onChange={(e) => {
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
         // শুধুমাত্র সংখ্যা টাইপ করার লজিক
         const value = e.target.value.replace(/\D/g, ""); 
         setFormData({
@@ -446,7 +444,7 @@ export default function OrphanRegistration() {
                     value={formData.orphanHealthCondition}
                     placeholder="যেমন: সুস্থ, বা কোনো দীর্ঘস্থায়ী রোগ থাকলে উল্লেখ করুন"
                     className={`${inputStyle} pl-14`}
-                    onChange={(e) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setFormData({
                         ...formData,
                         orphanHealthCondition: e.target.value,
@@ -480,7 +478,7 @@ export default function OrphanRegistration() {
                     placeholder="অভিভাবকের নাম"
                     value={formData.guardianName}
                     className={inputStyle}
-                    onChange={(e) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setFormData({ ...formData, guardianName: e.target.value })
                     }
                   />
@@ -488,7 +486,7 @@ export default function OrphanRegistration() {
                     placeholder="সম্পর্ক (যেমন: চাচা/মামা)"
                     value={formData.guardianRelationship}
                     className={inputStyle}
-                    onChange={(e) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setFormData({
                         ...formData,
                         guardianRelationship: e.target.value,
@@ -504,7 +502,7 @@ export default function OrphanRegistration() {
                       placeholder="মোবাইল নাম্বার"
                       value={formData.guardianMobile}
                       className={`${inputStyle} pl-14`}
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setFormData({
                           ...formData,
                           guardianMobile: e.target.value,
@@ -521,7 +519,7 @@ export default function OrphanRegistration() {
                       placeholder="এনআইডি নম্বর"
                       value={formData.guardianNid}
                       className={`${inputStyle} pl-14`}
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setFormData({
                           ...formData,
                           guardianNid: e.target.value,
@@ -552,7 +550,7 @@ export default function OrphanRegistration() {
                     placeholder="স্কুল/মাদ্রাসার নাম"
                     value={formData.currentSchoolName}
                     className={inputStyle}
-                    onChange={(e) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setFormData({
                         ...formData,
                         currentSchoolName: e.target.value,
@@ -564,7 +562,7 @@ export default function OrphanRegistration() {
       placeholder="শিক্ষা প্রতিষ্ঠানের ঠিকানা"
       value={formData.orphanEducationInstituteAddress}
       className={inputStyle}
-      onChange={(e) =>
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
         setFormData({
           ...formData,
           orphanEducationInstituteAddress: e.target.value,
@@ -586,7 +584,7 @@ export default function OrphanRegistration() {
                     placeholder="পূর্বের পড়াশোনা (যদি থাকে)"
                     value={formData.previousSchoolName}
                     className={inputStyle}
-                    onChange={(e) =>
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       setFormData({
                         ...formData,
                         previousSchoolName: e.target.value,
@@ -683,7 +681,7 @@ export default function OrphanRegistration() {
                 value={formData.currentSituation}
                 className="w-full bg-white/5 border border-white/10 rounded-3xl p-6 text-white outline-none focus:border-white/30 transition-all placeholder:text-white/20 font-medium relative z-10"
                 placeholder="শিশুর বর্তমান পরিস্থিতি এবং পরিবারের অবস্থা বিস্তারিত বর্ণনা করুন..."
-                onChange={(e) =>
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                   setFormData({ ...formData, currentSituation: e.target.value })
                 }
               />
@@ -715,7 +713,7 @@ export default function OrphanRegistration() {
                   placeholder="রেফারকারীর নাম"
                   value={formData.orphanViaName}
                   className={inputStyle}
-                  onChange={(e) =>
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setFormData({ ...formData, orphanViaName: e.target.value })
                   }
                 />
@@ -723,7 +721,7 @@ export default function OrphanRegistration() {
                   placeholder="রেফারকারীর মোবাইল"
                   value={formData.orphanViaContact}
                   className={inputStyle}
-                  onChange={(e) =>
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setFormData({
                       ...formData,
                       orphanViaContact: e.target.value,
@@ -745,7 +743,7 @@ export default function OrphanRegistration() {
                   placeholder="শিশুর সাথে সম্পর্ক"
                   value={formData.orphanViaRelation}
                   className={inputStyle}
-                  onChange={(e) =>
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setFormData({
                       ...formData,
                       orphanViaRelation: e.target.value,
@@ -795,7 +793,7 @@ export default function OrphanRegistration() {
                       type="file"
                       accept="image/*"
                       className="hidden"
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         e.target.files?.[0] &&
                         handleFileUpload(e.target.files[0], "photo")
                       }
@@ -841,7 +839,7 @@ export default function OrphanRegistration() {
                       type="file"
                       accept=".pdf,image/*"
                       className="hidden"
-                      onChange={(e) =>
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         e.target.files?.[0] &&
                         handleFileUpload(e.target.files[0], "birth")
                       }
