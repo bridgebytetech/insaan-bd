@@ -6,6 +6,7 @@ export interface AdminGalleryItem {
   displayOrder: number;
   isActive: boolean;
   createdAt: string;
+
 }
 
 export interface GalleryRequest {
