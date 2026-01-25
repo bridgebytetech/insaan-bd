@@ -20,7 +20,7 @@ export default function HomePage() {
       <QuickStats />
       <Introduction />
       <HowItWorks />
-      
+
       <WhyChooseUs />
       <RecentActivities />
       {/* <GalleryPreview /> */}
@@ -37,5 +37,6 @@ export default function HomePage() {
 
 export const metadata = {
   title: "Insaan BD - সহমর্মিতার হাত একটি শিশুর জন্য",
-  description: "আপনার সামান্য অবদান হতে পারে একটি এতিম শিশুর উজ্জ্বল ভবিষ্যতের চাবিকাঠি।",
+  description:
+    "আপনার সামান্য অবদান হতে পারে একটি এতিম শিশুর উজ্জ্বল ভবিষ্যতের চাবিকাঠি।",
 };

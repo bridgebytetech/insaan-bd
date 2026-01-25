@@ -1,13 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { toast, Toaster } from "react-hot-toast";
 import adminOrphanAdminService from "@/app/lib/services/orphanAdminService"; 
 import {
   User, Heart, Camera, CheckCircle2, ShieldCheck, 
   ArrowRight, BookOpen, Package, Stethoscope, HomeIcon, 
-  GraduationCap, Loader2, UploadCloud, Activity, ArrowLeft,
-  Calendar, MapPin, Phone, Users,FileText 
+  GraduationCap, Loader2, Activity, ArrowLeft,
+  Calendar, MapPin, Phone, Users, FileText 
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -35,8 +35,20 @@ export default function AdminOrphanRegistration() {
   };
 
   const [formData, setFormData] = useState(initialFormState);
-  const [uploadingFiles, setUploadingFiles] = useState({ photo: false, birth: false, death: false });
-  const [uploadedFiles, setUploadedFiles] = useState({ photo: null, birth: null, death: null });
+  
+  // ✅ Fixed: Record<string, boolean> type added
+  const [uploadingFiles, setUploadingFiles] = useState<Record<string, boolean>>({
+    photo: false,
+    birth: false,
+    death: false
+  });
+  
+  // ✅ Fixed: Record<string, string | null> type added
+  const [uploadedFiles, setUploadedFiles] = useState<Record<string, string | null>>({
+    photo: null,
+    birth: null,
+    death: null
+  });
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -53,7 +65,11 @@ export default function AdminOrphanRegistration() {
       if (response.success) {
         const fileUrl = response.data.url;
         setUploadedFiles(prev => ({ ...prev, [type]: file.name }));
-        const fieldMapping: any = { photo: 'orphanDpUrl', birth: 'birthCertificateUrl', death: 'fatherDeathCertificateUrl' };
+        const fieldMapping: Record<string, string> = { 
+          photo: 'orphanDpUrl', 
+          birth: 'birthCertificateUrl', 
+          death: 'fatherDeathCertificateUrl' 
+        };
         setFormData(prev => ({ ...prev, [fieldMapping[type]]: fileUrl }));
         toast.success(`${type === 'photo' ? 'ছবি' : 'ডকুমেন্ট'} আপলোড সফল!`);
       }
@@ -98,39 +114,39 @@ export default function AdminOrphanRegistration() {
       <div className="max-w-5xl mx-auto pt-12 px-6">
         {/* Page Title & Breadcrumb */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-12 border-b border-white/10 pb-10">
-  <div className="space-y-4">
-    {/* আধুনিক ব্যাজ ডিজাইন */}
-    <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 backdrop-blur-xl border border-emerald-500/20 rounded-2xl">
-      <div className="relative flex h-3 w-3">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-        <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-      </div>
-      <span className="text-[11px] font-black text-emerald-400 uppercase tracking-[0.2em]">
-        System Secure
-      </span>
-    </div>
+          <div className="space-y-4">
+            {/* আধুনিক ব্যাজ ডিজাইন */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 backdrop-blur-xl border border-emerald-500/20 rounded-2xl">
+              <div className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+              </div>
+              <span className="text-[11px] font-black text-emerald-400 uppercase tracking-[0.2em]">
+                System Secure
+              </span>
+            </div>
 
-    {/* উন্নত টাইপোগ্রাফি */}
-    <div>
-      <h1 className="text-5xl md:text-6xl font-black text-black tracking-tight leading-none">
-        শিশুর <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text ">নিবন্ধন</span>
-      </h1>
-      <p className="text-slate-400 font-medium mt-4 text-lg max-w-md leading-relaxed">
-        নতুন অনাথ শিশুর তথ্য ডাটাবেসে অত্যন্ত সতর্কতার সাথে এন্ট্রি নিশ্চিত করুন।
-      </p>
-    </div>
-  </div>
+            {/* উন্নত টাইপোগ্রাফি */}
+            <div>
+              <h1 className="text-5xl md:text-6xl font-black text-black tracking-tight leading-none">
+                শিশুর <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text ">নিবন্ধন</span>
+              </h1>
+              <p className="text-slate-400 font-medium mt-4 text-lg max-w-md leading-relaxed">
+                নতুন অনাথ শিশুর তথ্য ডাটাবেসে অত্যন্ত সতর্কতার সাথে এন্ট্রি নিশ্চিত করুন।
+              </p>
+            </div>
+          </div>
 
-  {/* আল্ট্রা-মডার্ন ব্যাক বাটন */}
-  <button 
-    onClick={() => router.back()} 
-    className="group relative flex items-center gap-3 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all duration-300 overflow-hidden"
-  >
-    <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-    <ArrowLeft size={20} className="text-emerald-400 group-hover:-translate-x-1 transition-transform" />
-    <span className="text-white font-bold tracking-wide">ফিরে যান</span>
-  </button>
-</div>
+          {/* আল্ট্রা-মডার্ন ব্যাক বাটন */}
+          <button 
+            onClick={() => router.back()} 
+            className="group relative flex items-center gap-3 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all duration-300 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <ArrowLeft size={20} className="text-emerald-400 group-hover:-translate-x-1 transition-transform" />
+            <span className="text-white font-bold tracking-wide">ফিরে যান</span>
+          </button>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-10">
           
@@ -243,7 +259,7 @@ export default function AdminOrphanRegistration() {
           <div className="bg-emerald-50/50 p-10 md:p-14 rounded-[4rem] border border-emerald-100 shadow-inner">
             <div className="text-center mb-10">
               <h2 className="text-3xl font-black text-[#264653] mb-2">প্রয়োজনীয় ডকুমেন্টস</h2>
-              <p className="text-gray-500 font-medium italic text-sm">শিশুর সত্যতা নিশ্চিত করতে ডকুমেন্টগুলো প্রয়োজন</p>
+              <p className="text-gray-500 font-medium italic text-sm">শিশুর সত্যতা নিশ্চিত করতে ডকুমেন্টগুলো প্রয়োজন</p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
