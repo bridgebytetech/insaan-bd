@@ -6,10 +6,17 @@ import Footer from "@/app/components/shared/Footer";
 
 async function getActivities(): Promise<ActivityItem[]> {
   try {
-    const response = await api.get<{ data: ActivityItem[] }>(
-      "/public/activities",
-    );
-    return response.data.data.filter((item) => item.isActive) || [];
+    const res = await fetch("https://api.insaanbd.org/api/public/activities", {
+      cache: "no-store", // always fresh
+    });
+
+    if (!res.ok) {
+      console.error("Fetch failed:", res.status);
+      return [];
+    }
+
+    const json = await res.json();
+    return json.data?.filter((item: ActivityItem) => item.isActive) || [];
   } catch (error) {
     console.error("Activity fetch error:", error);
     return [];
