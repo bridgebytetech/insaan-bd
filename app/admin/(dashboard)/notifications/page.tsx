@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import api from "@/app/lib/api/axios";
-import { AdminNotification } from "@/app/types/notification";
+import { AdminNotification } from "@/app/lib/types/notification";
 import { 
   CheckCircle, Clock, BellRing, Trash2, Loader2, 
   Inbox, Sparkles, Filter, MoreHorizontal, CheckCheck
