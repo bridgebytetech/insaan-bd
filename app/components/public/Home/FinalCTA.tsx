@@ -5,13 +5,13 @@ import Link from "next/link";
 export default function FinalCTA() {
 
   return (
-    <section className="relative py-24 md:py-44 bg-[#F8F9FA] overflow-hidden">
+    <section className="relative py-24 md:py-44 bg-[#F8F9FA] overflow-hidden px:6 md:px-10">
       {/* --- ARCHITECTURAL GRID BACKGROUND --- */}
       <div className="absolute inset-0 z-0 opacity-[0.4] pointer-events-none">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:100px_100px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto relative px:6 md:px-10 z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-gray-200 bg-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.05)]">
           
           {/* --- LEFT SIDE: THE STATEMENT (7 Columns) --- */}

@@ -9,6 +9,7 @@ import {
   ShieldCheck, Loader2, X, Zap
 } from "lucide-react";
 import Footer from "@/app/components/shared/Footer";
+import Link from "next/link";
 
 // API Interface matching your schema
 interface Donor {
@@ -145,9 +146,12 @@ export default function DonorList() {
           <h2 className="text-4xl md:text-6xl font-black text-[#264653] tracking-tighter mb-8 uppercase">
             আপনিও হতে পারেন <br/><span className="text-[#2A9D8F]">পরিবর্তনের কারিগর</span>
           </h2>
+          <Link href="/donors/register">
+          
           <button className="bg-[#264653] text-white px-12 py-6 font-black uppercase text-[10px] tracking-[0.4em] hover:bg-[#2A9D8F] transition-all duration-500">
             Apply to be a Donor
           </button>
+          </Link>
         </div>
       </div>
 

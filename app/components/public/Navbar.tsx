@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import {
   Heart,
   Menu,
@@ -69,7 +70,7 @@ const Navbar = () => {
       <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${scrolled ? "bg-white/90 backdrop-blur-md border-b border-gray-100 py-3 shadow-sm" : "bg-transparent py-6"}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex justify-between items-center">
           
-          <Link href="/" className="flex items-center gap-3 group shrink-0">
+        <Link href="/" className="flex items-center gap-3 group shrink-0">
             <div className="w-10 h-10 bg-[#264653] rounded-2xl flex items-center justify-center transition-all group-hover:bg-[#2A9D8F] shadow-lg shadow-[#264653]/10">
               <Heart className="w-5 h-5 text-white" fill="white" />
             </div>
@@ -77,9 +78,9 @@ const Navbar = () => {
               <span className="text-xl font-black text-[#264653] tracking-tighter leading-none">INSAAN<span className="text-[#2A9D8F]">BD</span></span>
               <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mt-1">Pure Humanity</span>
             </div>
-          </Link>
-
-          <nav className="hidden xl:flex items-center gap-1 bg-gray-50/40 p-1.5 rounded-full border border-gray-100/50">
+          </Link> 
+          
+            <nav className="hidden xl:flex items-center gap-1 bg-gray-50/40 p-1.5 rounded-full border border-gray-100/50">
             {menuItems.map((item) => (
               <Link key={item.href} href={item.href} className={`px-5 py-2 text-[13px] font-bold rounded-full transition-all ${pathname === item.href ? "bg-white text-[#2A9D8F] shadow-sm" : "text-[#264653]/70 hover:text-[#264653]"}`}>
                 {item.name_bn}

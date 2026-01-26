@@ -42,8 +42,8 @@ export default function SuccessStories() {
   }
 
   return (
-    <section className="max-w-7xl mx-auto py-24 md:py-40 relative overflow-hidden ">
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+    <section className="max-w-7xl mx-auto py-24 md:py-40 relative overflow-hidden px-6 md:px-10">
+      <div className="max-w-7xl mx-auto  relative z-10">
         
         {/* --- HEADER --- */}
         <div className="mx-auto flex flex-col lg:flex-row items-end justify-between mb-20 gap-12">
@@ -109,6 +109,15 @@ export default function SuccessStories() {
             </motion.div>
           ))}
         </div>
+        {/* --- VIEW ALL BUTTON --- */}
+<div className="mt-16 text-center">
+  <button 
+    onClick={() => window.location.href = '/reviews'} // আপনার রাউটের নাম অনুযায়ী পরিবর্তন করুন
+    className="inline-flex items-center gap-3 px-8 py-4 border-2 border-[#264653] text-[#264653] font-black uppercase tracking-widest text-[11px] rounded-full hover:bg-[#264653] hover:text-white transition-all duration-300"
+  >
+    সবগুলো মতামত দেখুন <Plus size={16} />
+  </button>
+</div>
 
         {/* --- FORM SECTION --- */}
         <div className="mt-24 bg-white rounded-[3rem] shadow-[0_30px_100px_rgba(0,0,0,0.05)] border border-gray-50 overflow-hidden">
@@ -157,7 +166,7 @@ export default function SuccessStories() {
                 }}
                 className="space-y-10"
               >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="grid grid-cols-1 gap-10">
                   <div className="relative group border-b-2 border-gray-100 focus-within:border-[#2A9D8F] transition-all py-2">
                     <label className="text-[9px] font-black uppercase tracking-widest text-gray-400 absolute -top-6">Full Name</label>
                     <input 
@@ -166,14 +175,14 @@ export default function SuccessStories() {
                       className="w-full bg-transparent outline-none text-[#264653] font-bold placeholder:text-gray-200"
                     />
                   </div>
-                  <div className="relative group border-b-2 border-gray-100 focus-within:border-[#2A9D8F] transition-all py-2">
+                  {/* <div className="relative group border-b-2 border-gray-100 focus-within:border-[#2A9D8F] transition-all py-2">
                     <label className="text-[9px] font-black uppercase tracking-widest text-gray-400 absolute -top-6">Identity</label>
                     <input 
                       disabled={isSubmitting} type="text" 
                       placeholder="উদা: শুভাকাঙ্ক্ষী" 
                       className="w-full bg-transparent outline-none text-[#264653] font-bold placeholder:text-gray-200"
                     />
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="relative group border-b-2 border-gray-100 focus-within:border-[#2A9D8F] transition-all py-2">

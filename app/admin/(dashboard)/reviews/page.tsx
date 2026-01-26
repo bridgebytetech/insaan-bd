@@ -15,7 +15,6 @@ interface Review {
   createdAt: string;
 }
 
-// --- Custom Confirmation Modal Component ---
 const ConfirmModal = ({ 
   isOpen, onClose, onConfirm, title, message, confirmText, type 
 }: { 
@@ -74,7 +73,6 @@ export default function AdminReviewsPage() {
   const [filter, setFilter] = useState<'PENDING' | 'APPROVED' | 'REJECTED'>('PENDING');
   const [actionId, setActionId] = useState<number | null>(null);
 
-  // Modal State
   const [modalConfig, setModalConfig] = useState<{
     isOpen: boolean;
     title: string;
@@ -99,8 +97,8 @@ export default function AdminReviewsPage() {
     };
   }, []);
 
-  const fetchReviews = useCallback(async () => {
-    setLoading(true);
+  const fetchReviews = useCallback(async (showLoader = true) => {
+    if(showLoader) setLoading(true);
     try {
       const res = await fetch(`https://api.insaanbd.org/api/admin/reviews`, {
         method: 'GET',
@@ -123,6 +121,7 @@ export default function AdminReviewsPage() {
   }, [fetchReviews]);
 
   const handleAction = async (id: number, endpoint: string) => {
+    if (actionId) return; // Prevent multiple actions at once
     setActionId(id);
     try {
       const res = await fetch(`https://api.insaanbd.org/api/admin/reviews/${id}/${endpoint}`, {
@@ -130,8 +129,11 @@ export default function AdminReviewsPage() {
         headers: getAuthHeaders(),
       });
       const result = await res.json();
-      if (result.success) await fetchReviews(); 
-      else alert(result.message || "Action failed!");
+      if (result.success) {
+        await fetchReviews(false); // Silent refresh
+      } else {
+        alert(result.message || "Action failed!");
+      }
     } catch (err) {
       alert("Network error occurred!");
     } finally {
@@ -143,7 +145,7 @@ export default function AdminReviewsPage() {
     setModalConfig({
       isOpen: true,
       title: "Confirm Delete",
-      message: "This action is permanent. Do you really want to remove this review from the archives?",
+      message: "This action is permanent. Do you really want to remove this review?",
       confirmText: "Delete Now",
       type: "danger",
       onConfirm: async () => {
@@ -175,8 +177,8 @@ export default function AdminReviewsPage() {
         onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))} 
       />
 
-      <div className="">
-        {/* Header Section */}
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div>
             <h1 className="text-3xl font-black tracking-tight uppercase">
@@ -234,7 +236,7 @@ export default function AdminReviewsPage() {
                     <button 
                       onClick={() => handleAction(rev.reviewId, 'toggle')}
                       disabled={actionId === rev.reviewId}
-                      className="p-2 text-gray-300 hover:text-[#264653] transition-colors"
+                      className="p-2 text-gray-300 hover:text-[#264653] transition-colors disabled:opacity-50"
                     >
                       <RefreshCw size={16} className={actionId === rev.reviewId ? "animate-spin" : ""} />
                     </button>
@@ -247,26 +249,29 @@ export default function AdminReviewsPage() {
                       {filter !== 'APPROVED' && (
                         <button 
                           onClick={() => handleAction(rev.reviewId, 'approve')}
-                          className="bg-[#2A9D8F]/10 text-[#2A9D8F] px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#2A9D8F] hover:text-white transition-all disabled:opacity-50"
+                          disabled={actionId === rev.reviewId}
+                          className="bg-[#2A9D8F]/10 text-[#2A9D8F] px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#2A9D8F] hover:text-white transition-all disabled:opacity-50 flex items-center gap-2"
                         >
-                          Approve
+                          {actionId === rev.reviewId ? <Loader2 size={12} className="animate-spin" /> : 'Approve'}
                         </button>
                       )}
                       {filter !== 'REJECTED' && (
                         <button 
                           onClick={() => handleAction(rev.reviewId, 'reject')}
-                          className="bg-[#E76F51]/10 text-[#E76F51] px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#E76F51] hover:text-white transition-all disabled:opacity-50"
+                          disabled={actionId === rev.reviewId}
+                          className="bg-[#E76F51]/10 text-[#E76F51] px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#E76F51] hover:text-white transition-all disabled:opacity-50 flex items-center gap-2"
                         >
-                          Reject
+                          {actionId === rev.reviewId ? <Loader2 size={12} className="animate-spin" /> : 'Reject'}
                         </button>
                       )}
                     </div>
 
                     <button 
                       onClick={() => triggerDelete(rev.reviewId)}
-                      className="p-2 text-gray-300 hover:text-red-500 transition-colors"
+                      disabled={actionId === rev.reviewId}
+                      className="p-2 text-gray-300 hover:text-red-500 transition-colors disabled:opacity-50"
                     >
-                      <Trash2 size={18} />
+                      {actionId === rev.reviewId ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
                     </button>
                   </div>
                 </motion.div>

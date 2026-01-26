@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Users, Heart, Gift, TrendingUp, Sparkle,HandHelping ,MapPin} from "lucide-react";
+import { Users, Heart, Gift, TrendingUp, Sparkle,HandHelping ,MapPin,Verified } from "lucide-react";
 import { motion } from "framer-motion";
 import axios from "axios";
 
@@ -11,7 +11,9 @@ const iconMap = {
   Gift,
   TrendingUp,
   HandHelping, // এটি যোগ করুন
-  MapPin,      // এটি যোগ করুন
+  MapPin,
+  Verified ,
+        // এটি যোগ করুন
 };
 
 export default function QuickStats() {
@@ -61,13 +63,20 @@ export default function QuickStats() {
       icon: "Heart",
       color: "#E76F51"
     },
-    {
-      label: "সক্রিয় সেচ্ছাসেবক",
-      value: "১০",
-      desc: "দেশজুড়ে আমাদের নিবেদিতপ্রাণ কর্মীরা শিশুদের উজ্জ্বল ভবিষ্যৎ গড়তে নিরলস কাজ করছে।",
-      icon: "HandHelping", 
-      color: "#264653"
-    },
+    // {
+    //   label: "সক্রিয় সেচ্ছাসেবক",
+    //   value: "১০",
+    //   desc: "দেশজুড়ে আমাদের নিবেদিতপ্রাণ কর্মীরা শিশুদের উজ্জ্বল ভবিষ্যৎ গড়তে নিরলস কাজ করছে।",
+    //   icon: "HandHelping", 
+    //   color: "#264653"
+    // },
+    { 
+  label: "ভেরিফাইড ডোনেশন", 
+  value: "১০০%", 
+  desc: "আমাদের সকল অনুদান সম্পূর্ণভাবে যাচাই ও স্বচ্ছভাবে ব্যবস্থাপনা করা হয়।", 
+  icon: "Verified", 
+  color: "#1D3557" 
+},
     {
       label: "কার্যরত জেলা",
       value: "৬৪" ,
