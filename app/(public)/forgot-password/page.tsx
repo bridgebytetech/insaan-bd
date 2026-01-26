@@ -2,15 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, ShieldCheck, ArrowLeft, Loader2, Timer, Lock, Eye, EyeOff, UserCircle2 } from 'lucide-react';
-import Link from 'next/link';
+import { Mail, ShieldCheck, ArrowLeft, Loader2, Timer, Lock, Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import api from '@/app/lib/api/axios';
 
 export default function ForgotPassword() {
   const router = useRouter();
-  const [step, setStep] = useState(1); // 1: Email/Role, 2: OTP, 3: Reset
+  const [step, setStep] = useState(1); // 1: Email, 2: OTP, 3: Reset
   const [loading, setLoading] = useState(false);
   const [showPass, setShowPass] = useState(false);
 
@@ -19,7 +18,7 @@ export default function ForgotPassword() {
     otp: '',
     newPassword: '',
     confirmPassword: '',
-    role: 'ADMIN' as 'ADMIN' | 'DONOR'
+    role: 'DONOR' // Defaulted to DONOR, ADMIN removed
   });
 
   const [timer, setTimer] = useState(120);
@@ -35,12 +34,10 @@ export default function ForgotPassword() {
     return () => clearInterval(interval);
   }, [step, timer]);
 
-  // Password Validation: Must have both letters and numbers
   const isValidPassword = (pass: string) => {
     return /[A-Za-z]/.test(pass) && /[0-9]/.test(pass);
   };
 
-  // Step 1: Request OTP
   const handleRequestOTP = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -60,7 +57,6 @@ export default function ForgotPassword() {
     } finally { setLoading(false); }
   };
 
-  // Step 2: Verify OTP
   const handleVerifyOTP = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.otp.length < 4) return toast.error("Please enter a valid OTP");
@@ -80,7 +76,6 @@ export default function ForgotPassword() {
     } finally { setLoading(false); }
   };
 
-  // Step 3: Final Reset
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -103,7 +98,8 @@ export default function ForgotPassword() {
       
       if (res.data.success) {
         toast.success(res.data.message || "Password reset successful!");
-        setTimeout(() => router.push('/admin/login'), 2000);
+        // Redirecting to donor login since role is DONOR
+        setTimeout(() => router.push('/donors/login'), 2000);
       }
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Reset failed");
@@ -136,20 +132,9 @@ export default function ForgotPassword() {
             </h1>
 
             <AnimatePresence mode="wait">
-              {/* STEP 1: Email & Role */}
+              {/* STEP 1: Email */}
               {step === 1 && (
                 <motion.form key="s1" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} onSubmit={handleRequestOTP} className="space-y-5 mt-8">
-                  <div className="flex bg-gray-50 p-1 rounded-xl gap-1">
-                    {['ADMIN', 'DONOR'].map((r) => (
-                      <button
-                        key={r} type="button"
-                        onClick={() => setFormData({...formData, role: r as any})}
-                        className={`flex-1 py-2 text-[10px] font-black rounded-lg transition-all ${formData.role === r ? 'bg-white text-[#2A9D8F] shadow-sm' : 'text-gray-400 hover:text-gray-600'}`}
-                      >
-                        {r}
-                      </button>
-                    ))}
-                  </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Email Address</label>
                     <div className="relative">
