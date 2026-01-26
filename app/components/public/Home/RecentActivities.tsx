@@ -57,7 +57,7 @@ export default function ActivitiesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FDFCFB] pt-32 pb-24 px-6 font-sans">
+    <div className="min-h-screen bg-[#FDFCFB] pt-32 pb-24 px-6 ">
       <div className="max-w-7xl mx-auto">
         
         {/* Newspaper Header */}
@@ -86,7 +86,7 @@ export default function ActivitiesPage() {
               <h2 className="text-4xl md:text-6xl font-black text-[#264653] mb-6 leading-tight hover:text-[#2A9D8F] transition-colors uppercase">
                 {activities[0].activityTitle}
               </h2>
-              <p className="text-xl text-gray-600 leading-relaxed mb-8 font-serif">
+              <p className="text-xl text-gray-600 leading-relaxed mb-8 ">
                 {activities[0].activityDescription}
               </p>
               <div className="flex items-center justify-between py-6 border-t border-dashed border-gray-200">

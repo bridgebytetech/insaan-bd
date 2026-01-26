@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
-import { Quote, Plus, CheckCircle2, Loader2 } from "lucide-react";
+import { Quote, Plus, CheckCircle2, Loader2 ,Calendar} from "lucide-react";
 
 interface Review {
   reviewId: number;
@@ -95,8 +95,14 @@ export default function SuccessStories() {
                     {item.name}
                   </h4>
                   <div className="flex items-center gap-1.5">
-                    <CheckCircle2 size={12} className="text-[#2A9D8F]" />
-                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em]">Verified Contributor</span>
+                    <Calendar size={12} className="text-[#2A9D8F]" />
+                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em]">
+  {new Date(item.createdAt).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  })}
+</span>
                   </div>
                 </div>
               </div>
