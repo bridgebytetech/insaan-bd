@@ -159,7 +159,7 @@ export default function Footer() {
                 glowColor="group-hover:shadow-[#E4405F]/20"
               />
               <SocialIcon 
-                href="https://www.linkedin.com/company/108645484" 
+                href="https://www.linkedin.com/company/bridge-byte-tech" 
                 icon={<Linkedin size={14} />} 
                 brandColor="group-hover:text-[#0A66C2]" 
                 glowColor="group-hover:shadow-[#0A66C2]/20"
