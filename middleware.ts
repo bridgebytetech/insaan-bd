@@ -1,6 +1,9 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+// middleware.ts (project root)
 
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+// আপনার HTML এখানে inline করা হলো
 const maintenanceHTML = `
 <!DOCTYPE html>
 <html lang="en">
@@ -27,6 +30,7 @@ const maintenanceHTML = `
 
   <div class="text-center max-w-xl px-6">
 
+    <!-- Animated Icon -->
     <div class="flex justify-center mb-6 animate-float">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -34,6 +38,7 @@ const maintenanceHTML = `
       </svg>
     </div>
 
+    <!-- Heading -->
     <h1 class="text-4xl font-bold tracking-wide mb-3">
       Site Under Construction
     </h1>
@@ -44,13 +49,18 @@ const maintenanceHTML = `
       Please check back soon.
     </p>
 
+    <!-- Divider -->
     <div class="h-px w-32 bg-gradient-to-r from-transparent via-indigo-500 to-transparent mx-auto mb-8"></div>
 
+    <!-- Developer Credit -->
     <p class="text-sm text-gray-500 mb-4">
       Developed by <span class="text-white font-medium">Bridge Byte Tech</span>
     </p>
 
+    <!-- Social Icons -->
     <div class="flex justify-center gap-6">
+
+      <!-- Website -->
       <a href="https://bridgebytetech.com" target="_blank"
          class="group border border-gray-700 p-3 rounded-full hover:border-indigo-500 transition">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 group-hover:text-indigo-500"
@@ -62,6 +72,7 @@ const maintenanceHTML = `
         </svg>
       </a>
 
+      <!-- Facebook -->
       <a href="https://facebook.com/bridgebytetech" target="_blank"
          class="group border border-gray-700 p-3 rounded-full hover:border-indigo-500 transition">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 group-hover:text-indigo-500"
@@ -70,6 +81,7 @@ const maintenanceHTML = `
         </svg>
       </a>
 
+      <!-- Instagram -->
       <a href="https://instagram.com/bridgebytetech" target="_blank"
          class="group border border-gray-700 p-3 rounded-full hover:border-indigo-500 transition">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 group-hover:text-indigo-500"
@@ -78,6 +90,7 @@ const maintenanceHTML = `
         </svg>
       </a>
 
+      <!-- YouTube -->
       <a href="https://youtube.com/@bridgebytetech" target="_blank"
          class="group border border-gray-700 p-3 rounded-full hover:border-indigo-500 transition">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 group-hover:text-indigo-500"
@@ -92,14 +105,15 @@ const maintenanceHTML = `
 
 </body>
 </html>
-`
+`;
 
 export function middleware(req: NextRequest) {
   return new NextResponse(maintenanceHTML, {
-    headers: { 'content-type': 'text/html' },
-  })
+    headers: { "content-type": "text/html" },
+  });
 }
 
+// apply middleware to all routes
 export const config = {
-  matcher: '/:path*',
-}
+  matcher: "/:path*",
+};
