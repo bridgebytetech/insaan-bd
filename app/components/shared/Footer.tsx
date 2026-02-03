@@ -15,6 +15,7 @@ import {
   UserPlus,
   LogIn,
   Code2,
+  Globe,
 } from "lucide-react";
 
 export default function Footer() {
@@ -223,7 +224,7 @@ export default function Footer() {
                   Developed by
                 </span>
                 <a
-                  href="https://www.facebook.com/bridgebytetech"
+                  href="https://www.bridgebytetech.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white text-sm font-black tracking-tight hover:text-[#2A9D8F] transition-colors duration-300"
@@ -259,6 +260,12 @@ export default function Footer() {
               <SocialIcon
                 href="https://www.youtube.com/@bridgebytetech"
                 icon={<Youtube size={14} />}
+                brandColor="group-hover:text-[#FF0000]"
+                glowColor="group-hover:shadow-[#FF0000]/20"
+              />
+              <SocialIcon
+                href="https://www.bridgebytetech.com/"
+                icon={<Globe size={14} />}
                 brandColor="group-hover:text-[#FF0000]"
                 glowColor="group-hover:shadow-[#FF0000]/20"
               />
