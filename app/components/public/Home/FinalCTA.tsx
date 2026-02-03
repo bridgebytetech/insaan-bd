@@ -53,11 +53,14 @@ export default function FinalCTA() {
 
               {/* ACTION AREA */}
               <div className="flex flex-col sm:flex-row gap-6 pt-10">
+                <Link href="/orphans">
+                
                 <button className="group relative bg-[#264653] text-white px-10 py-6 font-black uppercase text-[11px] tracking-[0.3em] overflow-hidden transition-all hover:bg-[#2A9D8F]">
                   <span className="relative z-10 flex items-center gap-4">
                     Sponsor Now <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                   </span>
                 </button>
+                </Link>
                 
                <Link href="/donation">
   <button className="group flex items-center gap-4 px-10 py-6 border border-gray-200 text-[#264653] font-black uppercase text-[11px] tracking-[0.3em] hover:bg-gray-50 transition-all">

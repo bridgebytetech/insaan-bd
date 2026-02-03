@@ -41,11 +41,26 @@ export default function Hero() {
     },
   };
 
-  const stats = [
-    { label: "সক্রিয় সদস্য", value: "১২০+", icon: Star, color: "#2A9D8F" },
-    { label: "স্বচ্ছতা", value: "১০০%", icon: ShieldCheck, color: "#E76F51" },
-    { label: "দাতা সদস্য", value: "৫০+", icon: Users, color: "#264653" },
-  ];
+const stats = [
+  { 
+    label: "মানবিক দায়বদ্ধতা", 
+    value: "২৪/৭", 
+    icon: Star, 
+    color: "#2A9D8F" 
+  },
+  { 
+    label: "স্বচ্ছতা", 
+    value: "১০০%", 
+    icon: ShieldCheck, 
+    color: "#E76F51" 
+  },
+  { 
+    label: "সরাসরি প্রভাব", 
+    value: "১০০%", 
+    icon: Users, 
+    color: "#264653" 
+  },
+];
 
   return (
     <section className="relative min-h-[100dvh] flex items-center bg-[#FDFDFD] overflow-hidden pt-28 pb-12">

@@ -196,19 +196,19 @@ export default function DonationPage() {
                 <div className="space-y-6">
                   <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10">
                     <div>
-                      <p className="text-[10px] font-black text-[#2A9D8F] uppercase mb-1">bKash (Merchant)</p>
-                      <p className="text-lg font-bold tracking-wider">০১৭৯৬-৪১৫২০৩</p>
+                      <p className="text-[10px] font-black text-[#2A9D8F] uppercase mb-1">bKash (Send money)</p>
+                      <p className="text-lg font-bold tracking-wider">01823823716</p>
                     </div>
                     <div className="w-10 h-10 bg-[#D12053] rounded-lg" />
                   </div>
 
-                  <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10">
+                  {/* <div className="flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10">
                     <div>
                       <p className="text-[10px] font-black text-orange-400 uppercase mb-1">Nagad (Personal)</p>
                       <p className="text-lg font-bold tracking-wider">০১৮৭৫-৯৬৩২১০</p>
                     </div>
                     <div className="w-10 h-10 bg-orange-600 rounded-lg" />
-                  </div>
+                  </div> */}
 
                   <div className="p-5 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 flex gap-4">
                     <Info size={24} className="text-emerald-400 shrink-0" />

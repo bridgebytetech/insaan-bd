@@ -69,16 +69,27 @@ const Navbar = () => {
     <>
       <header className={`fixed top-0 left-0 w-full z-[100] transition-all duration-300 ${scrolled ? "bg-white/90 backdrop-blur-md border-b border-gray-100 py-3 shadow-sm" : "bg-transparent py-6"}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-10 flex justify-between items-center">
-          
-        <Link href="/" className="flex items-center gap-3 group shrink-0">
-            <div className="w-10 h-10 bg-[#264653] rounded-2xl flex items-center justify-center transition-all group-hover:bg-[#2A9D8F] shadow-lg shadow-[#264653]/10">
-              <Heart className="w-5 h-5 text-white" fill="white" />
-            </div>
-            <div className="flex flex-col text-left">
-              <span className="text-xl font-black text-[#264653] tracking-tighter leading-none">INSAAN<span className="text-[#2A9D8F]">BD</span></span>
-              <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mt-1">Pure Humanity</span>
-            </div>
-          </Link> 
+      
+        {/* লোগো সেকশন */}
+    <Link href="/" className="flex items-center  group shrink-0">
+      {/* ইমেজের জন্য একটি ফিক্সড সাইজের কন্টেইনার দরকার */}
+      <div className="relative w-12 h-12 md:w-14 md:h-14">
+        <Image
+          src="/logo.png"
+          alt="My App Logo"
+          fill
+          priority
+          sizes="(max-width: 768px) 40px, 48px" // রেসপন্সিভ সাইজ
+          style={{ objectFit: "contain" }}
+        />
+      </div>
+      
+      {/* টেক্সট */}
+      {/* <div className="flex flex-col text-left">
+        <span className="text-xl font-black text-[#264653] tracking-tighter leading-none">INSAAN<span className="text-[#2A9D8F]">BD</span></span>
+        <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mt-1">Pure Humanity</span>
+      </div> */}
+    </Link> 
           
             <nav className="hidden xl:flex items-center gap-1 bg-gray-50/40 p-1.5 rounded-full border border-gray-100/50">
             {menuItems.map((item) => (
@@ -111,7 +122,7 @@ const Navbar = () => {
             )}
           </div>
 
-          <button onClick={() => setIsOpen(true)} className="xl:hidden p-2 text-[#264653] hover:bg-gray-100 rounded-full">
+          <button onClick={() => setIsOpen(true)} className="xl:hidden p-2 text-[#1B3840]hover:bg-gray-100 rounded-full">
             <Menu size={28} />
           </button>
         </div>
