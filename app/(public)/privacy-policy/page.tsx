@@ -139,8 +139,8 @@ export default function PrivacyPolicy() {
                   গোপনীয়তা নীতি সংক্রান্ত যেকোনো জিজ্ঞাসা বা তথ্যের জন্য আমাদের সাপোর্ট টিমের সাথে যোগাযোগ করুন।
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <a href="mailto:info@insaanbd.org" className="px-8 py-4 bg-[#2A9D8F] hover:bg-[#21867a] rounded-2xl font-bold transition-all shadow-lg shadow-[#2A9D8F]/20">
-                    info@insaanbd.org
+                  <a href="mailto:Insaanbd.org@gmail.com" className="px-8 py-4 bg-[#2A9D8F] hover:bg-[#21867a] rounded-2xl font-bold transition-all shadow-lg shadow-[#2A9D8F]/20">
+                    Insaanbd.org@gmail.com
                   </a>
                   <a href="tel:+880170000000" className="px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/10 rounded-2xl font-bold transition-all">
                     যোগাযোগ করুন

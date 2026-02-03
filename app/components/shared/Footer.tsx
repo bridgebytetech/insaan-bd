@@ -202,7 +202,7 @@ export default function Footer() {
                     className="flex items-center gap-3 text-white/40 hover:text-white transition-colors text-sm font-medium group"
                   >
                     <Mail size={18} className="text-[#2A9D8F]" />
-                    info@insaanbd.org
+                    Insaanbd.org@gmail.com
                   </a>
                 </div>
               </div>

@@ -112,7 +112,7 @@ const terms = [
                 <HelpCircle className="mb-4 text-[#2A9D8F]" size={28} />
                 <h5 className="font-bold text-lg mb-2">সাহায্য লাগবে?</h5>
                 <p className="text-white/50 text-xs leading-relaxed mb-6 font-medium">আইনি বিষয়ে কোনো প্রশ্ন থাকলে সরাসরি আমাদের সাথে যোগাযোগ করুন।</p>
-                <a href="mailto:info@insaanbd.org" className="block w-full py-4 bg-[#2A9D8F] text-white text-center rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#21867a] transition-all">
+                <a href="mailto:Insaanbd.org@gmail.com" className="block w-full py-4 bg-[#2A9D8F] text-white text-center rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#21867a] transition-all">
                   ইমেইল করুন
                 </a>
               </div>
