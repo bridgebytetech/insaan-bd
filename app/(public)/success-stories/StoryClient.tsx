@@ -238,7 +238,7 @@ export default function StoryClient({ stories, featuredStories }: Props) {
                     <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-[#2A9D8F] group-hover:bg-[#2A9D8F] group-hover:text-white transition-all shrink-0">
                         <Phone size={20} />
                     </div>
-                    <p className="text-white/60 text-sm font-bold">+৮৮০ ১৭০০-০০০০০</p>
+                    <p className="text-white/60 text-sm font-bold">+8801823823716</p>
                   </div>
                 </div>
               </div>

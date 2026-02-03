@@ -96,15 +96,15 @@ export default function FinalCTA() {
               <div className="pt-12 border-t border-gray-200">
                 <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.4em] mb-6">Connect</h4>
                 <div className="space-y-8">
-                  <a href="tel:+88017000000" className="block group">
+                  <a href="tel:+8801823823716" className="block group">
                     <p className="text-[9px] font-black text-[#2A9D8F] uppercase tracking-widest mb-1">Help Desk</p>
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl font-black text-[#264653] tracking-tighter">+৮৮০ ১৭০০-০০০০০</span>
+                      <span className="text-2xl font-black text-[#264653] tracking-tighter">+8801823823716</span>
                       <ArrowUpRight size={20} className="text-gray-300 group-hover:text-[#2A9D8F] transition-colors" />
                     </div>
                   </a>
                   
-                  <a href="mailto:support@insanbd.org" className="block group">
+                  <a href="mailto:insaanbd.org@gmail.com" className="block group">
                     <p className="text-[9px] font-black text-[#2A9D8F] uppercase tracking-widest mb-1">Email Inquiry</p>
                     <div className="flex items-center justify-between">
                       <span className="text-2xl font-black text-[#264653] tracking-tighter uppercase">Support</span>
