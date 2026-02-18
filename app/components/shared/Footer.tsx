@@ -88,19 +88,26 @@ export default function Footer() {
               লক্ষ্যে আমরা কাজ করছি। আপনার দান তাদের ভবিষ্যৎ।
             </p>
             <div className="flex gap-4">
-              {[Facebook, Instagram, Youtube, Linkedin].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#2A9D8F] hover:text-white transition-all border border-white/5 group"
-                >
-                  <Icon
-                    size={20}
-                    className="group-hover:scale-110 transition-transform"
-                  />
-                </a>
-              ))}
-            </div>
+  {[
+    { Icon: Facebook, url: "https://www.facebook.com/profile.php?id=61587039539368&mibextid=wwXIfr" },
+    { Icon: Instagram, url: "https://www.instagram.com/your_instagram_profile/" },
+    { Icon: Youtube, url: "https://www.youtube.com/channel/your_channel_id" },
+    { Icon: Linkedin, url: "https://www.linkedin.com/in/your_linkedin_profile/" },
+  ].map(({ Icon, url }, i) => (
+    <a
+      key={i}
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#2A9D8F] hover:text-white transition-all border border-white/5 group"
+    >
+      <Icon
+        size={20}
+        className="group-hover:scale-110 transition-transform"
+      />
+    </a>
+  ))}
+</div>
           </div>
 
           {/* Links Grid */}
