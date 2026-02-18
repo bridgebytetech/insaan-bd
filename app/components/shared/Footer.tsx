@@ -36,29 +36,28 @@ export default function Footer() {
           {/* Brand & Socials */}
           <div className="lg:col-span-5 space-y-8">
             <div className="flex items-center gap-4">
-  {/* লোগো সেকশন */}
- <div className="flex items-center gap-5">
-  
-  {/* ১. লোগো সেকশন */}
-  <Link href="/" className="group relative shrink-0">
-    {/* ব্যাকগ্রাউন্ড গ্লো ইফেক্ট */}
-    <div className="absolute inset-0 bg-[#2A9D8F] blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full" />
-    
-    {/* লোগো কন্টেইনার */}
-    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-white rounded-2xl p-2.5 shadow-2xl border-4 border-[#224A52] group-hover:border-[#2A9D8F] transition-all duration-300 transform group-hover:-translate-y-1">
-      <Image
-        src="/logo.png"
-        alt="InsaanBD Logo"
-        fill
-        priority
-        className="object-contain p-1"
-        sizes="(max-width: 768px) 64px, 80px"
-      />
-    </div>
-  </Link>
+              {/* লোগো সেকশন */}
+              <div className="flex items-center ">
+                {/* ১. লোগো সেকশন */}
+                <Link href="/" className="group relative shrink-0">
+                  {/* ব্যাকগ্রাউন্ড গ্লো ইফেক্ট */}
+                  <div className="absolute inset-0 bg-[#2A9D8F] blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500 rounded-full" />
 
-  {/* ২. ব্র্যান্ড টেক্সট */}
-  {/* <div className="flex flex-col justify-center">
+                  {/* লোগো কন্টেইনার */}
+                  <div className="relative w-16 h-16 md:w-20 md:h-20 bg-white  p-2.5 shadow-2xl border-4 border-[#224A52] group-hover:border-[#2A9D8F] transition-all duration-300 transform group-hover:-translate-y-1">
+                    <Image
+                      src="/logo.png"
+                      alt="InsaanBD Logo"
+                      fill
+                      priority
+                      className="object-contain p-1"
+                      sizes="(max-width: 768px) 64px, 80px"
+                    />
+                  </div>
+                </Link>
+
+                {/* ২. ব্র্যান্ড টেক্সট */}
+                {/* <div className="flex flex-col justify-center">
     <h3 className="text-3xl md:text-4xl font-black text-white tracking-tight leading-none drop-shadow-md">
       ইনসান<span className="text-[#2A9D8F]">বিডি</span>
     </h3>
@@ -70,44 +69,58 @@ export default function Footer() {
       </span>
     </div>
   </div> */}
+              </div>
 
-</div>
-
-  {/* ব্র্যান্ড টেক্সট */}
-  <div className="flex flex-col">
-    <h3 className="text-3xl md:text-4xl font-black text-white tracking-tight uppercase leading-none drop-shadow-sm">
-      ইনসান <span className="text-[#2A9D8F] drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">বিডি</span>
-    </h3>
-    <span className="text-[10px] md:text-xs font-bold text-gray-400 tracking-[0.3em] uppercase mt-1 pl-1">
-      বিশুদ্ধ মানবতা
-    </span>
-  </div>
-</div>
+              {/* ব্র্যান্ড টেক্সট */}
+              <div className="flex flex-col">
+                <h3 className="text-3xl md:text-4xl font-black text-white tracking-tight uppercase leading-none drop-shadow-sm">
+                  ইনসান{" "}
+                  <span className="text-[#2A9D8F] drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+                    বিডি
+                  </span>
+                </h3>
+                <span className="text-[10px] md:text-xs font-bold text-gray-400 tracking-[0.3em] uppercase mt-1 pl-1">
+                  বিশুদ্ধ মানবতা
+                </span>
+              </div>
+            </div>
             <p className="text-white/60 text-lg leading-relaxed max-w-md font-medium">
               সুবিধাবঞ্চিত ও এতিম শিশুদের জন্য একটি সুন্দর ও নিরাপদ পৃথিবী গড়ার
               লক্ষ্যে আমরা কাজ করছি। আপনার দান তাদের ভবিষ্যৎ।
             </p>
             <div className="flex gap-4">
-  {[
-    { Icon: Facebook, url: "https://www.facebook.com/profile.php?id=61587039539368&mibextid=wwXIfr" },
-    { Icon: Instagram, url: "https://www.instagram.com/your_instagram_profile/" },
-    { Icon: Youtube, url: "https://www.youtube.com/channel/your_channel_id" },
-    { Icon: Linkedin, url: "https://www.linkedin.com/in/your_linkedin_profile/" },
-  ].map(({ Icon, url }, i) => (
-    <a
-      key={i}
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#2A9D8F] hover:text-white transition-all border border-white/5 group"
-    >
-      <Icon
-        size={20}
-        className="group-hover:scale-110 transition-transform"
-      />
-    </a>
-  ))}
-</div>
+              {[
+                {
+                  Icon: Facebook,
+                  url: "https://www.facebook.com/profile.php?id=61587039539368&mibextid=wwXIfr",
+                },
+                {
+                  Icon: Instagram,
+                  url: "https://www.instagram.com/your_instagram_profile/",
+                },
+                {
+                  Icon: Youtube,
+                  url: "https://www.youtube.com/channel/your_channel_id",
+                },
+                {
+                  Icon: Linkedin,
+                  url: "https://www.linkedin.com/in/your_linkedin_profile/",
+                },
+              ].map(({ Icon, url }, i) => (
+                <a
+                  key={i}
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#2A9D8F] hover:text-white transition-all border border-white/5 group"
+                >
+                  <Icon
+                    size={20}
+                    className="group-hover:scale-110 transition-transform"
+                  />
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* Links Grid */}
@@ -191,7 +204,7 @@ export default function Footer() {
                 <div className="flex gap-3">
                   <MapPin size={18} className="text-[#2A9D8F] shrink-0" />
                   <p className="text-white/40 text-sm leading-snug">
-                    রাঙ্গুনিয়া, চট্টগ্রাম 
+                    রাঙ্গুনিয়া, চট্টগ্রাম
                   </p>
                 </div>
                 <div className="space-y-3">
