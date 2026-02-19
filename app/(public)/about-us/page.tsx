@@ -18,14 +18,13 @@ export default function SimpleAboutPage() {
             <p className="text-gray-400 font-medium italic tracking-widest">ইনসান বিডি • ২০২৬</p>
           </header>
 
-      {/* Founder Section - Unique & Premium UI (Without Photo) */}
 <section className="relative mb-24 overflow-hidden rounded-[2rem] bg-[#264653] p-1 text-white shadow-2xl">
   {/* Background Decorative Elements */}
   <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#2a9d8f] opacity-20 blur-3xl"></div>
   <div className="absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-[#e9c46a] opacity-10 blur-2xl"></div>
 
   <div className="relative z-10 rounded-[1.9rem] border border-white/10 bg-gradient-to-br from-[#264653] to-[#213a45] p-8 md:p-12">
-    <div className="max-w-3xl">
+    <div className="max-w-4xl">
       
       {/* Aesthetic Quote Icon */}
       <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#e9c46a]/10">
@@ -46,16 +45,26 @@ export default function SimpleAboutPage() {
       </h2>
 
       <blockquote className="relative">
-        <p className="text-2xl md:text-3xl font-medium leading-[1.6] text-white/95 mb-10 tracking-tight">
-          "আমাদের মূল লক্ষ্য হলো প্রতিটি অসহায় শিশুর জন্য একটি সুন্দর ও নিরাপদ পৃথিবী গড়ে তোলা। ইনসান বিডি শুধুমাত্র একটি প্লাটফর্ম নয়, এটি একটি <span className="text-[#2a9d8f] font-bold">মানবিক আন্দোলন</span> যা প্রতিটি শিশুর হাসি নিশ্চিত করতে কাজ করে।"
-        </p>
+        <div className="space-y-6 text-lg md:text-xl font-light leading-[1.8] text-white/90 mb-10">
+          <p>
+            মানুষ হিসেবে মানুষের পাশে দাঁড়ানোই আমাদের ভিশন। সমাজের সুবিধাবঞ্চিত শিশু-কিশোর ও এতিম শিক্ষার্থীদের অগ্রাধিকার ভিত্তিতে আর্থিক সহযোগিতা প্রদান আমাদের চলমান প্রকল্প। ভবিষ্যতে সমাজ উন্নয়নমূলক বিভিন্ন প্রকল্প বাস্তবায়িত হবে, <span className="text-[#e9c46a] font-semibold">ইনশাআল্লাহ!</span>
+          </p>
+          
+          <p>
+            আমরা মনে করি, যেকোনো ভালো কাজ একা করার চেয়ে একসাথে করা অধিক ফলপ্রসূ ও অতি-উত্তম। আমাদের অজান্তেই হয়তো অনেক দীনদরদী ও দানশীল ব্যক্তি রয়েছেন, নির্ভরযোগ্য প্লাটফর্মের অভাবে যারা ইচ্ছে থাকা সত্ত্বেও মানুষের পাশে দাঁড়াতে পারেন না।
+          </p>
+
+          <p className="text-xl md:text-2xl font-medium text-white italic">
+            "তাদেরকেও সঙ্গে নিয়ে একটি মানবিক পৃথিবী গড়ার স্বপ্ন বাস্তবায়নের লক্ষ্যেই এ <span className="text-[#2a9d8f] font-bold">’ইনسان ফাউন্ডেশন’</span>। মহৎপ্রাণ কিছু মানুষের আন্তরিক অংশগ্রহণে প্রাণে-প্রাণে পৌঁছে যাক ইনসানিয়াত ও মানবিকতার ঐশ্বরিক পয়গাম!"
+          </p>
+        </div>
         
-        <footer className="flex items-center gap-4">
-          <div className="h-[2px] w-12 bg-[#e9c46a]"></div>
+        <footer className="mt-12 flex items-center gap-6">
+          <div className="h-[2px] w-16 bg-[#e9c46a]"></div>
           <div>
-            <p className="text-xl font-bold tracking-wide text-white">মোঃ রেজোয়ান হোসাইন</p>
-            <p className="text-sm font-medium uppercase tracking-widest text-[#2a9d8f]">
-              প্রতিষ্ঠাতা ও পরিচালক, ইনসান বিডি
+            <p className="text-2xl font-bold tracking-tight text-white">মাহমুদুল হোসাইন</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.15em] text-[#2a9d8f]">
+              ফাউন্ডার, ইনসান ফাউন্ডেশন
             </p>
           </div>
         </footer>
